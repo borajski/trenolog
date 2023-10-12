@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// Back routes //
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/profile', function () {
+    return view('layouts.back_layouts.users.user_profile');
+});
+Route::resource('users', UsersController::class);
+
+
+
+

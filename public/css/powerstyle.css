@@ -1,0 +1,203 @@
+body {background-color:beige;}
+h1,h2,h3,h4  {font-family: 'Roboto', sans-serif;}
+h1 {font-size: 2.25rem;}
+h2 {font-size: 1.75rem;}
+h3 {font-size: 1.5rem;}
+h4 {font-size: 1.25rem;}
+p {
+  font-family: 'Montserrat', sans-serif;  
+  font-size: 1.15rem;}
+/*--SIDEBAR STYLE -- */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #000428;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+  }
+  
+  .sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  .footer {
+    background-color: #000428;
+  }
+  .footer a {
+    padding: 12px;
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: #818181;
+    display: inline;
+    transition: 0.3s;
+  }
+  .sidebar a:hover {
+    color: #f1f1f1;
+  }
+
+  .sidebar_content {
+      position: absolute;
+      top: 4rem;
+  }
+  /* BUTTON COLLAPSE AND MAIN CONTENT AREA STYLE */
+  .openbtn {
+    position: fixed;
+    z-index: 20;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: transparent;
+    color: #818181;
+    top: 20px;
+    left: 30px;
+   
+    border: none;
+  }
+  
+  .openbtn:hover {
+  color: yellow;
+  }
+  
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+    margin-left: 250px;
+    position: relative;
+    top: 3rem;
+    padding-bottom: 5rem;
+    z-index: 8;
+  }
+  .expand2 {width: 0;}
+  #expandOn {display: none;}
+  #main-stage {
+    transition: margin-left .5s;
+    padding: 16px;
+    position: relative;
+    top: 3rem;
+    padding-bottom: 5rem;
+    z-index: 8;
+  }
+
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+  @media screen and (min-width: 825px) {
+    .footer {display: none;}
+ }
+ @media screen and (max-width: 824px) {
+  .sidebar {display: none;}
+  .openbtn {display: none;}
+  .side-text {display: none;}
+  .profilna {display: none;}
+  #main {margin-left: 0;}
+}
+  .profile_image {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    }
+
+   /* COVER IMAGE ON PAGES */
+  .img-wrapper {
+  background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 50vh;
+  }
+
+  #editor-container {
+    height: 375px;
+  }
+  #email-container {
+    height: 375px;
+  }
+  .gumb {
+    background-color: #00517D;    
+    border: none;
+  }
+  .gumb:focus {
+    -webkit-box-shadow: none!important;
+      box-shadow: none!important;
+  }
+ /* PLATFORMA */
+ .clock {
+   margin-left: 0.5rem;
+ }
+ .clock:focus {
+  background-color: #00517D; 
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+ }
+ #timespan {
+   background-color:#000428;
+   font-size: 2.5rem;
+   font-weight: 700;
+   color: white;
+   border: 1px solid black;
+   padding: 2rem;
+   
+ }
+.kontrole {
+  background-color: white;
+  border: 1px solid black;
+  padding: 1rem;  
+}
+#kontrole {
+  visibility: hidden;
+}
+#specifikacija {
+  font-size: 1.25rem;
+  font-weight: 600;
+  }
+.platforma {
+  background-color: rgb(248, 245, 245);
+  border: 1px solid rgb(125, 125, 125);
+  border-radius: 5px;
+  margin-left: 0.4rem;
+  width: 24%;
+}
+#to-stage {
+  display:none;
+}
+
+  td.redcell {
+    background: red;
+    color: white;
+    border: 1px solid white;}
+  td.greencell {
+    background: green;
+    color: white;
+    border: 1px solid white;}
+    td.greycell {
+      background: rgb(235, 235, 235);
+      color: black;
+      border: 1px solid white;}
+    td.bluecell {
+      background: blue;
+      color: white;
+      border: 1px solid white;}
+  th.activecell {
+      background: orange;
+      color: white;      
+    }
+.accordion-button {
+  background-color: #000428;
+  color: white;
+  font-size: 1.2rem;
+}
+.accordion-button:focus {
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+}
+.table-hover tbody tr:hover {
+  background: rgb(235, 250, 250);
+}
