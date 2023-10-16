@@ -18,7 +18,6 @@ class CreateUserDetailsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('fname');
             $table->string('lname')->nullable();
-            $table->string('nickname')->nullable();
             $table->string('avatar')->default('images/users/default-avatar.png');
             $table->string('public')->nullable();
             $table->string('role')->default('trainee');
