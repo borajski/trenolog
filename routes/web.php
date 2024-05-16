@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\FoodsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Back routes //
+// BACK ROUTES//
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -28,6 +29,13 @@ Route::get('/profile', function () {
     return view('layouts.back_layouts.users.user_profile');
 });
 Route::resource('users', UsersController::class);
+
+// Food routes //
+Route::resource('foods', FoodsController::class);
+Route::get('/foods', [FoodsController::class, 'index']);
+Route::post('/foods/{id}', [FoodsController::class, 'update'])->name('food.update');
+Route::get('del_food/{id}',[FoodsController::class, 'destroy']);
+Route::get('/food/{id}', [FoodsController::class, 'getFood']);
 
 Route::get('/exercises', function () {
     return view('layouts.back_layouts.exercises.index');

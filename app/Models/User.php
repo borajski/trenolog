@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\UserDetail;
+use App\Models\Food;
+use App\Models\Meal;
+use App\Models\Menu;
 
 
 class User extends Authenticatable
@@ -47,5 +50,17 @@ class User extends Authenticatable
     public function details()
     {
         return $this->hasOne(UserDetail::class, 'user_id');
-    }  
+    } 
+    public function foods()
+    {
+        return $this->hasMany(Food::class, 'user_id');
+    } 
+    public function meals()
+    {
+        return $this->hasMany(Meal::class, 'user_id');
+    }
+    public function menus()
+    {
+        return $this->hasMany(Menu::class, 'user_id');
+    }
 }
