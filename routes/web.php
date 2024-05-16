@@ -29,6 +29,10 @@ Route::get('/profile', function () {
 });
 Route::resource('users', UsersController::class);
 
+Route::get('/exercises', function () {
+    return view('layouts.back_layouts.exercises.index');
+}); 
+//Route::get('/exercises', [MusclesController::class, 'index']);
 
 
 
