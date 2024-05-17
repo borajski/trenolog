@@ -12,6 +12,21 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+/* za search */
+.search-results {
+            border: none;
+            max-height: 150px;
+            overflow-y: auto;
+      
+        }
+        .search-results div {
+            
+            cursor: pointer;
+        }
+        .search-results div:hover {
+            background-color: #f0f0f0;
+        }
+
 </style>
 @endsection
 @section('content')
@@ -75,7 +90,8 @@ input[type=number] {
                    
             <div class="row mb-3 align-items-center">
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="Food" name="namirnica[]">
+                    <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
+                    <div class="search-results"></div>
                 </div>
                 <div class="col-md-4">
                     <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
@@ -114,15 +130,19 @@ input[type=number] {
                         <div class="card-header text-center">
                             {{ $obrok->name }}
                         </div>
+                        <a href="{{ route('meals.show', $obrok->id)}}">
                         <img src="{{ $obrok->photo }}" class="card-img-top" alt="{{ $obrok->name }}">
+</a>
                         <div class="card-body">
                             <p class="card-text text-center">{{ $obrok->sort }}</p>
+
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
 </div>
+
 @endsection
 @section('js_after')
 <script>
@@ -141,8 +161,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 newRow.className = 'row mb-3 align-items-center';
                 newRow.innerHTML = `
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="Food" name="namirnica[]">
-                </div>
+                    <input type="text" class="form-control" placeholder="Food" id="food-search"  name="namirnica[]">
+                    <div class="search-results"></div>
+                    </div>
                 <div class="col-md-4">
                     <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
                 </div>
@@ -185,6 +206,56 @@ document.addEventListener('DOMContentLoaded', (event) => {
         reader.readAsDataURL(file);
     }
 }
+/* search ajax */
+document.addEventListener('DOMContentLoaded', function() {
+            var foodSearch = document.getElementById('food-search');
+            var searchResults = document.querySelector('.search-results');
+
+            foodSearch.addEventListener('keyup', function() {
+                var query = foodSearch.value;
+                if (query.length > 2) { // Počni pretraživanje nakon 3 unesena znaka
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', '/search-food?query=' + encodeURIComponent(query), true);
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    xhr.onload = function() {
+                        if (xhr.status >= 200 && xhr.status < 400) {
+                            var data = JSON.parse(xhr.responseText);
+                            searchResults.innerHTML = '';
+                            if (data.length > 0) {
+                                data.forEach(function(food) {
+                                    var div = document.createElement('div');
+                                    div.textContent = food.name;
+                                    div.addEventListener('click', function() {
+                                        foodSearch.value = food.name;
+                                        searchResults.innerHTML = '';
+                                    });
+                                    searchResults.appendChild(div);
+                                });
+                            } else {
+                                var noResults = document.createElement('div');
+                                noResults.textContent = 'No results found';
+                                searchResults.appendChild(noResults);
+                            }
+                        } else {
+                            console.error('Server error: ', xhr.responseText);
+                        }
+                    };
+                    xhr.onerror = function() {
+                        console.error('Request error');
+                    };
+                    xhr.send();
+                } else {
+                    searchResults.innerHTML = '';
+                }
+            });
+
+            // Zatvori rezultate pretrage klikom bilo gdje izvan input polja
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('#food-search') && !event.target.closest('.search-results')) {
+                    searchResults.innerHTML = '';
+                }
+            });
+        });
 
 </script>
 @endsection

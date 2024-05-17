@@ -37,10 +37,13 @@ Route::get('/foods', [FoodsController::class, 'index']);
 Route::post('/foods/{id}', [FoodsController::class, 'update'])->name('food.update');
 Route::get('del_food/{id}',[FoodsController::class, 'destroy']);
 Route::get('/food/{id}', [FoodsController::class, 'getFood']);
+Route::get('/search-food', [FoodsController::class, 'search'])->name('search.food');
+
 
 // Meal routes //
 Route::resource('meals', MealsController::class);
 Route::get('/meals', [MealsController::class, 'index']);
+Route::get('meals/{{id}}', [MealsController::class, 'show'])->name('meal');
 
 Route::get('/exercises', function () {
     return view('layouts.back_layouts.exercises.index');

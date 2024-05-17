@@ -87,6 +87,13 @@ class FoodsController extends Controller
 
     return response()->json($food);
 }
+public function search(Request $request)
+{
+    $query = $request->get('query');
+    $foods = Food::where('name', 'LIKE', "%{$query}%")->get();
+
+    return response()->json($foods);
+}
     public function update(Request $request, $id)
     {
         $food = Food::find($id);

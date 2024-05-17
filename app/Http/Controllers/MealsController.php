@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Meal;
 use App\Models\Photo;
+use App\Models\Food;
 
 class MealsController extends Controller
 {
@@ -63,7 +64,10 @@ class MealsController extends Controller
      */
     public function show($id)
     {
-        //
+      $obrok = Meal::find($id);
+      $foodItems = Food::all();
+      return view('layouts.back_layouts.meal.obrok', compact('obrok', 'foodItems'));
+      //return view('layouts.back_layouts.meal.obrok')->with('obrok',$obrok);
     }
 
     /**

@@ -33,7 +33,7 @@ class Meal extends Model
     foreach($food as $key => $namirnica)
     {
         $kolicina = $quantity[$key];
-        $ingredients = $ingredients.$namirnica.','.$kolicina;
+        $ingredients = $ingredients.$namirnica.'-'.$kolicina.',';
     }
    
     return self::insertGetId([
