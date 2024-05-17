@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Food;
+use App\Models\Meal;
+use App\Models\Photo;
 
-
-class FoodsController extends Controller
+class MealsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class FoodsController extends Controller
      */
     public function index()
     {
-        $query = (new Food())->newQuery();
-        $namirnice = $query->orderBy('name')->get();
-        return view('layouts.back_layouts.food.index')->with('namirnice',$namirnice); 
+        $query = (new Meal())->newQuery();
+        $obroci = $query->orderBy('name')->get();
+        return view('layouts.back_layouts.meal.index')->with('obroci',$obroci);
     }
 
     /**
@@ -38,16 +38,22 @@ class FoodsController extends Controller
      */
     public function store(Request $request)
     {
-        $food = new Food();
-        $stored = $food->validateRequest($request)->storeData($request); // gives food id
+        $obrok = new Meal();
+        $stored = $obrok->validateRequest($request)->storeData($request); // gives meal id
         if ($stored)
         {
-          return redirect('/foods')->with(['success' => 'Food added successfully!']);
+          if ($request->hasFile('photo')) {
+            $path = Photo::imageUpload($request->file('photo'), Meal::find($stored), 'meals', 'photo');
+            $obrok->updateImagePath($stored, $path);
+        }
+                return redirect('/meals')->with(['success' => 'Meal created successfully!']);
         }
         else {
            return redirect()->back()->with(['error' => 'Oops! Some errors occured!']);
         }
+    
     }
+    
 
     /**
      * Display the specified resource.
@@ -78,26 +84,9 @@ class FoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getFood($id)
-{
-    $food = Food::find($id);
-    if (!$food) {
-        return response()->json(['error' => 'food not found'], 404);
-    }
-
-    return response()->json($food);
-}
     public function update(Request $request, $id)
     {
-        $food = Food::find($id);
-        $updated = $food->validateRequest($request)->updateData($request,$id);
-        if ($updated)
-        {
-          return redirect('/foods')->with(['success' => 'Food updated successfully!']);
-    }
-    else {
-       return redirect()->back()->with(['error' => 'Oops! Some errors occured!']);
-    }
+        //
     }
 
     /**
@@ -108,9 +97,6 @@ class FoodsController extends Controller
      */
     public function destroy($id)
     {
-        $food = Food::find($id);
-     
-        $food->delete();
-        return redirect('/foods')->with(['success' => 'Food deleted successfully!']);
+        //
     }
 }

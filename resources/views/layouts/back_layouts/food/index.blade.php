@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 offset-md-1">
+        <div class="col-md-12">
             <h4>
                 <span class="float-start"> Food informations </span>
                 

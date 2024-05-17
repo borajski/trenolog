@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Powerlifting Meets</title>
+    <title>Eat2bfit</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -20,6 +20,7 @@
   
         <link rel="stylesheet" href="{{asset('css/powerstyle.css?v=').time()}}">
         <script src="https://kit.fontawesome.com/55d0ffdc49.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
     @yield('css_before')
     <script src="{{asset('js/back/general.js')}}" defer></script>
     @yield('js_before')

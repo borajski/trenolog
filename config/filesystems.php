@@ -57,6 +57,11 @@ return [
             'root' => public_path('images/users'),
             'url' => 'images/users/'
           ],
+        'meals' => [
+            'driver' => 'local',
+            'root' => public_path('images/meals'),
+            'url' => 'images/meals/'
+          ],
 
     ],
 
