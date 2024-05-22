@@ -84,12 +84,12 @@ input[type=number] {
                 </div>
 
                
-                    <div class="col-6">
+                    <div class="col-6"><!-- unos namirnica -->
                      
                     <label for="ingredients"><b>Ingredients:</b></label>
                    
             <div class="row mb-3 align-items-center">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
                     <div class="search-results"></div>
                 </div>
@@ -102,19 +102,14 @@ input[type=number] {
   <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg></a>
                 </div>
-                <div class="col-md-2">
-                    <a role="button" class="remove-row" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-</svg></a>
-                </div>
+
             </div>
             <div id="new-rows"></div>
            
                           
                      
                     </div>
-                </div>
+                </div> <!-- kraj unosa namirnica -->
                 <div class="text-end pt-3 pb-2">
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
@@ -131,7 +126,7 @@ input[type=number] {
                             {{ $obrok->name }}
                         </div>
                         <a href="{{ route('meals.show', $obrok->id)}}">
-                        <img src="{{ $obrok->photo }}" class="card-img-top" alt="{{ $obrok->name }}">
+                        <img src="{{ asset($obrok->photo)}}" class="card-img-top" alt="{{ $obrok->name }}">
 </a>
                         <div class="card-body">
                             <p class="card-text text-center">{{ $obrok->sort }}</p>
@@ -145,6 +140,7 @@ input[type=number] {
 
 @endsection
 @section('js_after')
+<script src="{{ asset('js/back/previewImg.js') }}"></script>
 <script>
 function newMeal() {
     if (document.getElementById('noviUnos').style.display == "none")
@@ -152,6 +148,7 @@ function newMeal() {
     else
         document.getElementById('noviUnos').style.display = "none";
 }
+/*
 document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelector('.add-row').addEventListener('click', addRow);
             document.querySelector('.remove-row').addEventListener('click', removeRow);
@@ -160,20 +157,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const newRow = document.createElement('div');
                 newRow.className = 'row mb-3 align-items-center';
                 newRow.innerHTML = `
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="Food" id="food-search"  name="namirnica[]">
                     <div class="search-results"></div>
                     </div>
                 <div class="col-md-4">
                     <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
                 </div>
-                <div class="col-md-2">
-                    <a role="button" class="add-row" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-</svg></a>
-                </div>
-                <div class="col-md-2">
+                 <div class="col-md-2">
                     <a role="button" class="remove-row" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
@@ -193,19 +184,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 }
             }
         });
-        function previewFile(input) {
-    var file = input.files[0];
-    if (file) {
-        var reader = new FileReader();
-        reader.onload = function() {
-            var img = input.parentNode.querySelector("img#previewImg");
-            if (img) {
-                img.src = reader.result;
-            }
+
+ */
+document.querySelector('.add-row').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const food = document.querySelector('#food-search').value;
+        const quantity = document.querySelector('input[name="kolicina[]"]').value;
+
+        if (food && quantity) {
+            const newRow = document.createElement('div');
+            newRow.className = 'row mb-3 align-items-center';
+            newRow.innerHTML = `
+                <div class="col-md-1">
+                    <a role="button" class="remove-row" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg></a>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" name="namirnica[]" value="${food}" readonly>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" name="kolicina[]" value="${quantity}" readonly>
+                </div>
+            `;
+
+            document.querySelector('#new-rows').appendChild(newRow);
+
+            document.querySelector('#food-search').value = '';
+            document.querySelector('input[name="kolicina[]"]').value = '';
+
+            newRow.querySelector('.remove-row').addEventListener('click', function(event) {
+                event.preventDefault();
+                newRow.remove();
+            });
         }
-        reader.readAsDataURL(file);
-    }
-}
+    });
 /* search ajax */
 document.addEventListener('DOMContentLoaded', function() {
             var foodSearch = document.getElementById('food-search');

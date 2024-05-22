@@ -100,7 +100,14 @@ class MealsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {       
+        $obrok = Meal::find($id);
+        if ($obrok->photo != NULL)
+        {
+          Photo::imageDelete($obrok, 'meals', 'photo');
+            }
+          
+        $obrok->delete();
+        return redirect('/meals')->with(['success' => 'Meal deleted successfully!']);
     }
 }

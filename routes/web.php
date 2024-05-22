@@ -44,6 +44,7 @@ Route::get('/search-food', [FoodsController::class, 'search'])->name('search.foo
 Route::resource('meals', MealsController::class);
 Route::get('/meals', [MealsController::class, 'index']);
 Route::get('meals/{{id}}', [MealsController::class, 'show'])->name('meal');
+Route::get('meals/del_meal/{id}',[MealsController::class, 'destroy']);
 
 Route::get('/exercises', function () {
     return view('layouts.back_layouts.exercises.index');
