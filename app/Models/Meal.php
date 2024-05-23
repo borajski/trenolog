@@ -56,18 +56,22 @@ private function setRequest($request)
           'photo' => $path
       ]);
   }
-  public static function updateData($request, $fed_id)
+  public static function updateData($request, $meal_id)
   {
-
-      return self::where('id', $fed_id)->update([
+    $ingredients = "";
+    $food = $request->namirnica;
+    $quantity = $request->kolicina;
+    foreach($food as $key => $namirnica)
+    {
+        $kolicina = $quantity[$key];
+        $ingredients = $ingredients.$namirnica.'-'.$kolicina.',';
+    }
+      return self::where('id', $meal_id)->update([
         'user_id'         =>  auth()->user()->id,
         'name'            =>  $request->name,
-        'wm_categories'   =>  $request->wm_categories,
-        'wf_categories'   =>  $request->wf_categories,
-        'age_categories'  =>  $request->age_categories,
-        'points_system'    =>  $request->points_system,
-        'divisions'    =>  $request->divisions,
-        'disciplines'    =>  $request->disciplines,
+        'sort'            =>  $request->sort,
+        'status'          =>  $request->status,
+        'ingredients'     =>  $ingredients,
         'updated_at' => Carbon::now()
       ]);
   }

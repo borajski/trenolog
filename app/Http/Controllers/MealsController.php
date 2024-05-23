@@ -90,7 +90,20 @@ class MealsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $meal = Meal::find($id);
+        $updated = $meal->validateRequest($request)->updateData($request,$id);
+        if ($updated)
+        {
+          if ($request->hasFile('photo')) {
+            $path = Photo::imageUpload($request->file('photo'), $meal, 'meals', 'photo');
+            $meal->updateImagePath($id, $path);
+        }
+      
+      return redirect()->route('meals.show', [$meal])->with(['success' => 'Meal successfully edited!']);
+        }
+        else {
+           return redirect()->back()->with(['error' => 'Uf! Došlo je do pogreške u spremanju podataka!']);
+        }
     }
 
     /**

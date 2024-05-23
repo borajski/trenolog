@@ -59,7 +59,7 @@ input[type=number] {
                 <div class="form-group align-center">
                             <label for="meal">Meal photo</label>
                             <br>
-                            <img class="align-center img-responsive img-thumbnail" id="previewImg"name="slika" src="https://via.placeholder.com/250" align="middle" width="250" alt="">
+                            <img class="align-center img-responsive img-thumbnail" id="previewImg" name="slika" src="https://via.placeholder.com/250" align="middle" width="250" alt="">
               <input type="file" class="form-control-file" name="photo" onchange="previewFile(this);">
                         </div>
                     </div>
@@ -70,8 +70,8 @@ input[type=number] {
                         </div>
                            <div class="form-group">
                             <label for="sort"><b>Sort:</b></label>
-                            <textarea class="form-control" rows="1" name="sort" style="width: 100%"></textarea>
-                        </div>
+                            <input type="text" class="form-control" name="sort">
+                            </div>
                         <div class="form-group">
                         <label for="status"><b>Status:</b></label>
                         <select name="status" class="form-control">
@@ -141,6 +141,8 @@ input[type=number] {
 @endsection
 @section('js_after')
 <script src="{{ asset('js/back/previewImg.js') }}"></script>
+<script src="{{ asset('js/back/pretraga-ajax.js') }}"></script>
+<script src="{{ asset('js/back/dodajRed.js') }}"></script>
 <script>
 function newMeal() {
     if (document.getElementById('noviUnos').style.display == "none")
@@ -148,129 +150,6 @@ function newMeal() {
     else
         document.getElementById('noviUnos').style.display = "none";
 }
-/*
-document.addEventListener('DOMContentLoaded', (event) => {
-            document.querySelector('.add-row').addEventListener('click', addRow);
-            document.querySelector('.remove-row').addEventListener('click', removeRow);
-
-            function addRow() {
-                const newRow = document.createElement('div');
-                newRow.className = 'row mb-3 align-items-center';
-                newRow.innerHTML = `
-                <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Food" id="food-search"  name="namirnica[]">
-                    <div class="search-results"></div>
-                    </div>
-                <div class="col-md-4">
-                    <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
-                </div>
-                 <div class="col-md-2">
-                    <a role="button" class="remove-row" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-</svg></a>
-                </div>
-                `;
-                document.getElementById('new-rows').appendChild(newRow);
-
-                // Bind event listeners to the new buttons
-                newRow.querySelector('.add-row').addEventListener('click', addRow);
-                newRow.querySelector('.remove-row').addEventListener('click', removeRow);
-            }
-
-            function removeRow(event) {
-                if (event.currentTarget.parentElement.parentElement.parentElement.children.length > 1) {
-                    event.currentTarget.parentElement.parentElement.remove();
-                }
-            }
-        });
-
- */
-document.querySelector('.add-row').addEventListener('click', function(event) {
-        event.preventDefault();
-
-        const food = document.querySelector('#food-search').value;
-        const quantity = document.querySelector('input[name="kolicina[]"]').value;
-
-        if (food && quantity) {
-            const newRow = document.createElement('div');
-            newRow.className = 'row mb-3 align-items-center';
-            newRow.innerHTML = `
-                <div class="col-md-1">
-                    <a role="button" class="remove-row" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                    </svg></a>
-                </div>
-                <div class="col-md-5">
-                    <input type="text" class="form-control" name="namirnica[]" value="${food}" readonly>
-                </div>
-                <div class="col-md-4">
-                    <input type="number" class="form-control" name="kolicina[]" value="${quantity}" readonly>
-                </div>
-            `;
-
-            document.querySelector('#new-rows').appendChild(newRow);
-
-            document.querySelector('#food-search').value = '';
-            document.querySelector('input[name="kolicina[]"]').value = '';
-
-            newRow.querySelector('.remove-row').addEventListener('click', function(event) {
-                event.preventDefault();
-                newRow.remove();
-            });
-        }
-    });
-/* search ajax */
-document.addEventListener('DOMContentLoaded', function() {
-            var foodSearch = document.getElementById('food-search');
-            var searchResults = document.querySelector('.search-results');
-
-            foodSearch.addEventListener('keyup', function() {
-                var query = foodSearch.value;
-                if (query.length > 2) { // Počni pretraživanje nakon 3 unesena znaka
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET', '/search-food?query=' + encodeURIComponent(query), true);
-                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                    xhr.onload = function() {
-                        if (xhr.status >= 200 && xhr.status < 400) {
-                            var data = JSON.parse(xhr.responseText);
-                            searchResults.innerHTML = '';
-                            if (data.length > 0) {
-                                data.forEach(function(food) {
-                                    var div = document.createElement('div');
-                                    div.textContent = food.name;
-                                    div.addEventListener('click', function() {
-                                        foodSearch.value = food.name;
-                                        searchResults.innerHTML = '';
-                                    });
-                                    searchResults.appendChild(div);
-                                });
-                            } else {
-                                var noResults = document.createElement('div');
-                                noResults.textContent = 'No results found';
-                                searchResults.appendChild(noResults);
-                            }
-                        } else {
-                            console.error('Server error: ', xhr.responseText);
-                        }
-                    };
-                    xhr.onerror = function() {
-                        console.error('Request error');
-                    };
-                    xhr.send();
-                } else {
-                    searchResults.innerHTML = '';
-                }
-            });
-
-            // Zatvori rezultate pretrage klikom bilo gdje izvan input polja
-            document.addEventListener('click', function(event) {
-                if (!event.target.closest('#food-search') && !event.target.closest('.search-results')) {
-                    searchResults.innerHTML = '';
-                }
-            });
-        });
 
 </script>
 @endsection

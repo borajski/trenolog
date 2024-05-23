@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\FoodsController;
 use App\Http\Controllers\MealsController;
+use App\Http\Controllers\MenusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +44,13 @@ Route::get('/search-food', [FoodsController::class, 'search'])->name('search.foo
 // Meal routes //
 Route::resource('meals', MealsController::class);
 Route::get('/meals', [MealsController::class, 'index']);
+Route::post('meals/meal/{id}', [MealsController::class, 'update'])->name('meal.update');
 Route::get('meals/{{id}}', [MealsController::class, 'show'])->name('meal');
 Route::get('meals/del_meal/{id}',[MealsController::class, 'destroy']);
+
+// Menu routes //
+Route::resource('menus', MenusController::class);
+Route::get('/menus', [MenusController::class, 'index']);
 
 Route::get('/exercises', function () {
     return view('layouts.back_layouts.exercises.index');
