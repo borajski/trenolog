@@ -2,8 +2,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     var foodSearch = document.getElementById('food-search');
     var searchResults = document.querySelector('.search-results');
-
-    foodSearch.addEventListener('keyup', function() {
+     var foodId = document.getElementById('food-id');
+      foodSearch.addEventListener('keyup', function() {
         var query = foodSearch.value;
         if (query.length > 2) { // Počni pretraživanje nakon 3 unesena znaka
             var xhr = new XMLHttpRequest();
@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             div.textContent = food.name;
                             div.addEventListener('click', function() {
                                 foodSearch.value = food.name;
+                               foodId.value = food.id;
                                 searchResults.innerHTML = '';
                             });
                             searchResults.appendChild(div);

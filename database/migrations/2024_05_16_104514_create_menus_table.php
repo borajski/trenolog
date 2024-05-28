@@ -17,6 +17,13 @@ class CreateMenusTable extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->string('ingredients')->nullable();
+            $table->string('proteins')->nullable();
+            $table->string('carbs')->nullable();
+            $table->string('sugars')->nullable();
+            $table->string('fibers')->nullable();
+            $table->string('fats')->nullable();
+            $table->string('saturated-fats')->nullable();
+            $table->string('calories')->nullable();
             $table->string('meals')->nullable();
             $table->string('date')->nullable(); 
             $table->timestamps();

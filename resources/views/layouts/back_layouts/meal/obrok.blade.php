@@ -32,24 +32,19 @@
         if (count($parts) === 2) {
             $namirnica = $parts[0];
             $kolicina = $parts[1];
-            $foodItem = $foodItems->where('name', $namirnica)->first();
-            if (isset($foodItem)) {
-                $proteins = $proteins + $foodItem->proteins * $kolicina / 100;
-                $carbs = $carbs + $foodItem->carbs * $kolicina / 100;
-                $fats = $fats + $foodItem->fats * $kolicina / 100;
-                $calories = $calories + $foodItem->calories * $kolicina / 100;
-            }
+            $foodItem = $foodItems->where('id', $namirnica)->first();
+          
         }
     @endphp
    
     @if (isset($foodItem))
-        {{ $namirnica }}  {{ $kolicina }}g<br>
+        {{ $foodItem->name }}  {{ $kolicina }}g<br>
     @endif
     
 @endforeach
 </p>
 <h5>Total:</h5>
-<p>Proteins: {{$proteins}}<br>Carbs:{{$carbs}}<br>Fats:{{$fats}}<br>Calories:{{$calories}}</p>
+<p>Proteins: {{$obrok->proteins}}<br>Carbs:{{$obrok->carbs}}<br>Fats:{{$obrok->fats}}<br>Calories:{{$obrok->calories}}</p>
 
       </div>
     </div>
@@ -115,6 +110,7 @@
                 <div class="col-md-6">
                     <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
                     <div class="search-results"></div>
+                    <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"> 
                 </div>
                 <div class="col-md-4">
                     <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
@@ -139,20 +135,15 @@
         if (count($parts) === 2) {
             $namirnica = $parts[0];
             $kolicina = $parts[1];
-            $foodItem = $foodItems->where('name', $namirnica)->first();
-            if (isset($foodItem)) {
-                $proteins = $proteins + $foodItem->proteins * $kolicina / 100;
-                $carbs = $carbs + $foodItem->carbs * $kolicina / 100;
-                $fats = $fats + $foodItem->fats * $kolicina / 100;
-                $calories = $calories + $foodItem->calories * $kolicina / 100;
+            $foodItem = $foodItems->where('id', $namirnica)->first();
             }
-        }
     @endphp
    
     @if (isset($foodItem))
     <div class="row mb-3 align-items-center">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" name="namirnica[]" value="{{$namirnica}}" readonly>
+                    <input type="text" class="form-control" name="namirnica[]" value="{{$foodItem->name}}" readonly>
+                    <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"  value="{{$foodItem->id}}"> 
                 </div>
                 <div class="col-md-4">
                     <input type="number" class="form-control" name="kolicina[]" value="{{$kolicina}}" readonly>
@@ -177,6 +168,9 @@
                     <button type="submit" class="btn btn-primary">Edit</button>
                 </div>
             </form>
+            <h5>Total:</h5>
+<p>Proteins: {{$obrok->proteins}}<br>Carbs:{{$obrok->carbs}}<br>Fats:{{$obrok->fats}}<br>Calories:{{$obrok->calories}}</p>
+
       </div>
 
 </div>

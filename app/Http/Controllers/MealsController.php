@@ -39,7 +39,7 @@ class MealsController extends Controller
      */
     public function store(Request $request)
     {
-        $obrok = new Meal();
+         $obrok = new Meal();
         $stored = $obrok->validateRequest($request)->storeData($request); // gives meal id
         if ($stored)
         {

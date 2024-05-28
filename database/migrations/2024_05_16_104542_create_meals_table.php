@@ -19,6 +19,13 @@ class CreateMealsTable extends Migration
             $table->string('name')->nullable();
             $table->string('sort')->nullable();
             $table->string('ingredients')->nullable();
+            $table->string('proteins')->nullable();
+            $table->string('carbs')->nullable();
+            $table->string('sugars')->nullable();
+            $table->string('fibers')->nullable();
+            $table->string('fats')->nullable();
+            $table->string('saturated-fats')->nullable();
+            $table->string('calories')->nullable();
             $table->string('photo')->nullable();
             $table->string('status')->nullable(); 
             $table->timestamps();

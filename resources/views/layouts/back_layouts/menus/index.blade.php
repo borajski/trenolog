@@ -70,7 +70,8 @@
                 </div>
                 <div class="col-md-4">
                     <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
-                </div>
+                    <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"> 
+                  </div>
                 <div class="col-md-2">
                     <a role="button" class="add-row" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -218,16 +219,18 @@ const generateCalendar = (month, year) => {
     var fats = 0;
     var calories = 0;
     var foodItems = @json($foodItems);
+
+
    
     // Iteriramo kroz sastojke obroka
     data.ingredients.forEach(function(ingredient) {
         var parts = ingredient.split('-');
         var foodItem = null; // Resetiranje foodItem na početku svake iteracije
         if (parts.length === 2) {
-            var namirnica = parts[0];
-            var kolicina = parts[1];
-            foodItem = foodItems.find(function(item) {
-                return item.name === namirnica;
+            var id = +parts[0];
+             var kolicina = parts[1];
+             foodItem = foodItems.find(function(item) {
+                return item.id === id; // Promijenjena usporedba na ID
             });
             if (foodItem) {
                 proteins += foodItem.proteins * kolicina / 100;
@@ -241,7 +244,7 @@ const generateCalendar = (month, year) => {
         if (foodItem) {
             var rowHtml = '<div class="row mb-3 align-items-center">';
             rowHtml += '<div class="col-md-6">';
-            rowHtml += '<input type="text" class="form-control" name="namirnica[]" value="' + namirnica + '" >';
+            rowHtml += '<input type="text" class="form-control" name="namirnica[]" value="' + foodItem.name + '" >';
             rowHtml += '</div>';
             rowHtml += '<div class="col-md-4">';
             rowHtml += '<input type="number" class="form-control" name="kolicina[]" value="' + kolicina + '" >';

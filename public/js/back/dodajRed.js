@@ -3,6 +3,7 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
 
     const food = document.querySelector('#food-search').value;
     const quantity = document.querySelector('input[name="kolicina[]"]').value;
+    const identifikacija = document.querySelector('#food-id').value;
 
     if (food && quantity) {
         const newRow = document.createElement('div');
@@ -11,6 +12,8 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
         
             <div class="col-md-6">
                 <input type="text" class="form-control" name="namirnica[]" value="${food}" >
+                <input type="hidden" class="form-control " id="food-id" name="identifikacija[]" value="${identifikacija}">
+                   
             </div>
             <div class="col-md-4">
                 <input type="number" class="form-control" name="kolicina[]" value="${quantity}" >
@@ -27,6 +30,7 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
 
         document.querySelector('#food-search').value = '';
         document.querySelector('input[name="kolicina[]"]').value = '';
+        document.querySelector('#food-id').value = '';
         newRow.querySelector('.remove-row').addEventListener('click', function(event) {
             event.preventDefault();
             newRow.remove();
