@@ -10,10 +10,10 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
         newRow.innerHTML = `
         
             <div class="col-md-6">
-                <input type="text" class="form-control" name="namirnica[]" value="${food}" readonly>
+                <input type="text" class="form-control" name="namirnica[]" value="${food}" >
             </div>
             <div class="col-md-4">
-                <input type="number" class="form-control" name="kolicina[]" value="${quantity}" readonly>
+                <input type="number" class="form-control" name="kolicina[]" value="${quantity}" >
             </div>
             <div class="col-md-2">
                 <a role="button" class="remove-row" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
@@ -27,7 +27,6 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
 
         document.querySelector('#food-search').value = '';
         document.querySelector('input[name="kolicina[]"]').value = '';
-
         newRow.querySelector('.remove-row').addEventListener('click', function(event) {
             event.preventDefault();
             newRow.remove();

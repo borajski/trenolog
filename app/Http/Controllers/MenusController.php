@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Menu;
+use App\Models\Food;
+
 
 class MenusController extends Controller
 {
@@ -13,11 +16,39 @@ class MenusController extends Controller
      */
     public function index()
     {
-        //$query = (new Meal())->newQuery();
-      //  $obroci = $query->orderBy('name')->get();
-        return view('layouts.back_layouts.menus.index');
-        //->with('obroci',$obroci);
+        // $query = (new Menu())->newQuery();
+       // $menus = $query->orderBy('date')->get();
+       $foodItems = Food::all();
+        return view('layouts.back_layouts.menus.index')->with('foodItems', $foodItems);
+        //->with('menus',$menus);
     }
+    public function checkMenu(Request $request)
+{
+    $date = $request->input('date');
+    
+    // Provjerite postoji li meni za zadani datum
+    $menuExists = Menu::where('date', $date)->exists();
+    
+    // Dohvatite sastojke menija ako meni postoji
+    $ingredients = [];
+    if ($menuExists) {
+        $menu = Menu::where('date', $date)->first();
+        $ingredients = explode(',', $menu->ingredients);
+        $id = $menu->id;
+    }
+    
+    return response()->json(['exists' => $menuExists, 'ingredients' => $ingredients, 'id' => $id]);
+}
+
+    /*
+    public function checkMenu(Request $request)
+    {
+        $date = $request->input('date');
+        // Provjerite postoji li meni za zadani datum
+        $menuExists = Menu::where('date', $date)->exists();
+        
+        return response()->json(['exists' => $menuExists]);
+    }*/
 
     /**
      * Show the form for creating a new resource.
@@ -37,7 +68,15 @@ class MenusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $menu = new Menu();
+        $stored = $menu->validateRequest($request)->storeData($request); // gives meal id
+        if ($stored)
+        {
+            return redirect('/menus')->with(['success' => 'Menu created successfully!']);
+        }
+        else {
+           return redirect()->back()->with(['error' => 'Oops! Some errors occured!']);
+        }
     }
 
     /**
@@ -71,7 +110,16 @@ class MenusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $menu = Menu::find($id);
+        $updated = $menu->validateRequest($request)->updateData($request,$id);
+        if ($updated)
+        {
+        
+            return redirect()->back()->with(['success' => 'Menu successfully edited!']);
+        }
+        else {
+           return redirect()->back()->with(['error' => 'Uf! Došlo je do pogreške u spremanju podataka!']);
+        }
     }
 
     /**

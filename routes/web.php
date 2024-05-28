@@ -51,6 +51,8 @@ Route::get('meals/del_meal/{id}',[MealsController::class, 'destroy']);
 // Menu routes //
 Route::resource('menus', MenusController::class);
 Route::get('/menus', [MenusController::class, 'index']);
+Route::post('/menus/{id}', [MenusController::class, 'update'])->name('menu.update');
+Route::post('/check-menu', [MenusController::class, 'checkMenu']);
 
 Route::get('/exercises', function () {
     return view('layouts.back_layouts.exercises.index');

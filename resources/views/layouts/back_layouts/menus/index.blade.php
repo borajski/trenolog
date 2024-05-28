@@ -1,316 +1,14 @@
 @extends('layouts.back_layouts.back-master')
 @section('css_before')
-<style>
-    * {
-  padding: 0;
-  margin: 0;
-  font-family: consolas;
-  box-sizing: border-box;
-}
-
-body {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  place-items: center;
-  background: linear-gradient(to right, #9796f0, #42445A);
-  overflow: hidden;
-}
-
-.calendar {
-  height: 30rem;
-  width: max-content;
-  background-color: white;
-  border-radius: 25px;
-  overflow: hidden;
-  padding: 35px 50px 0px 50px;
-}
-
-.calendar {
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.calendar-header {
-  background: #8089FE;
-  display: flex;
-  justify-content: space-between;
-  border-radius: 7px;
-  align-items: center;
-  font-weight: 700;
-  color: #ffffff;
-  padding: 10px;
-};
-
-.calendar-body {
-  padding: 10px;
-}
-
-.calendar-week-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  font-weight: 600;
-  cursor: pointer;
-  color: rgb(104, 104, 104);
-}
-
-.calendar-week-days div:hover {
-  color: black;
-  transform: scale(1.2);
-  transition: all .2s ease-in-out;
-}
-
-.calendar-week-days div {
-  display: grid;
-  place-items: center;
-  color: #6D67CF;
-  height: 50px;
-}
-
-.calendar-days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 2px;
-  color: #0A0921;
-}
-
-.calendar-days div {
-  width: 37px;
-  height: 33px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-  position: relative;
-  cursor: pointer;
-  animation: to-top 1s forwards;
-}
-
-.month-picker {
-  padding: 5px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.year-picker {
-  display: flex;
-  align-items: center;
-}
-
-.year-change {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  padding-top: 15px;
-  margin: 0px 10px;
-  cursor: pointer;
-}
-
-.year-change:hover {
-  background-color: #9796f0;
-  transition: all .2s ease-in-out;
-  transform: scale(1.12);
-}
-
-.calendar-footer {
-  padding: 10px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-#year:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-  transition: all 0.2 ease-in-out;
-}
-
-.calendar-days div span {
-  position: absolute;
-}
-
-.calendar-days div:hover {
-  transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
-  background-color: #fbc7d4;
-  border-radius: 20%;
-  color: #f8fbff;
-}
-
-.calendar-days div.current-date {
-  color: #f8fbff;
-  background-color: #9796f0;
-  border-radius: 20%;
-}
-
-.month-list {
-  position: relative;
-  left: 0;
-  top: -130px;
-  background-color: #ebebeb;
-  color: #151426;
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 5px;
-  border-radius: 20px;
-}
-
-.month-list>div {
-  display: grid;
-  place-content: center;
-  margin: 5px 10px;
-  transition: all 0.2s ease-in-out;
-}
-
-.month-list>div>div {
-  border-radius: 15px;
-  padding: 10px;
-  cursor: pointer;
-}
-
-.month-list>div>div:hover {
-  background-color: #9796f0;
-  color: #f8fbff;
-  transform: scale(0.9);
-  transition: all 0.2s ease-in-out;
-}
-
-.month-list.show {
-  visibility: visible;
-  pointer-events: visible;
-  transition: 0.6s ease-in-out;
-  animation: to-left .71s forwards;
-}
-
-.month-list.hideonce {
-  visibility: hidden;
-}
-
-.month-list.hide {
-  animation: to-right 1s forwards;
-  visibility: none;
-  pointer-events: none;
-}
-
-.date-time-formate {
-  height: 4rem;
-  width: 100%;
-  font-family: Dubai Light, Century Gothic;
-  position: relative;
-  display: flex;
-  top: 50px;
-  justify-content: center;
-  align-items: center;
-}
-
-.day-text-formate {
-  font-family: Microsoft JhengHei UI;
-  font-size: 1.4rem;
-  padding-right: 5%;
-  border-right: 3px solid #9796f0;
-}
-
-.date-time-value {
-  display: block;
-  position: relative;
-  text-align: center;
-  padding-left: 5%;
-}
-
-.time-formate {
-  font-size: 1.5rem;
-}
-
-.time-formate.hideTime {
-  animation: hidetime 1.5s forwards;
-}
-
-.day-text-formate.hidetime {
-  animation: hidetime 1.5s forwards;
-}
-
-.date-formate.hideTime {
-  animation: hidetime 1.5s forwards;
-}
-
-.day-text-formate.showtime {
-  animation: showtime 1s forwards;
-}
-
-.time-formate.showtime {
-  animation: showtime 1s forwards;
-}
-
-.date-formate.showtime {
-  animation: showtime 1s forwards;
-}
-
-@keyframes to-top {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateY(100%);
-    opacity: 1;
-  }
-}
-
-@keyframes to-left {
-  0% {
-    transform: translatex(230%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translatex(0);
-    opacity: 1;
-  }
-}
-
-@keyframes to-right {
-  10% {
-    transform: translatex(0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translatex(-150%);
-    opacity: 1;
-  }
-}
-
-@keyframes showtime {
-  0% {
-    transform: translatex(250%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translatex(0%);
-    opacity: 1;
-  }
-}
-
-@keyframes hidetime {
-  0% {
-    transform: translatex(0%);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translatex(-370%);
-    opacity: 1;
-  }
-}
-    </style>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+ <link rel="stylesheet" href="{{asset('css/calendar.css?v=').time()}}">
 @endsection
 @section('content')
-  <div class="container">
-    <div class="calendar">
+<div class="container">
+<h2 class="p-4">Menu maker</h2>
+<div class="row">
+<div class="col-md-6">
+<div class="calendar">
       <div class="calendar-header">
         <span class="month-picker" id="month-picker"> May </span>
         <div class="year-picker" id="year-picker">
@@ -323,7 +21,6 @@ body {
           </span>
         </div>
       </div>
-
       <div class="calendar-body">
         <div class="calendar-week-days">
           <div>Sun</div>
@@ -339,18 +36,64 @@ body {
       </div>
       <div class="calendar-footer">
       </div>
+      <!--
       <div class="date-time-formate">
         <div class="day-text-formate">TODAY</div>
         <div class="date-time-value">
           <div class="time-formate">01:41:20</div>
           <div class="date-formate">03 - march - 2022</div>
         </div>
-      </div>
+      </div> -->
       <div class="month-list"></div>
     </div>
+</div>
+<div class="col-md-6">
+<div class="daily-menu"></div>
+<div id="noviUnos" style="display:none;">
+ <!-- form start -->
+ <form  method="POST" id="unos-forma">
+                {{ csrf_field() }}
+  <div class="row">
+  <div class="col-12">
+      <div class="form-group">
+        <label for="date"><b>Date:</b></label>
+        <input type="text" class="form-control" name="date" id="date" readonly>
+      </div>          
+    </div>
   </div>
+   <!-- unos namirnica -->
+   <div class="row  mb-3 align-items-center"> 
+   <div class="col-md-6">     
+                    <label for="ingredients"><b>Ingredients:</b></label>               
+                    <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
+                    <div class="search-results"></div>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
+                </div>
+                <div class="col-md-2">
+                    <a role="button" class="add-row" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></a>
+                </div>
+</div> <!-- kraj unosa namirnica -->
+<div id="new-rows"></div>
+<div class="text-end pt-3 pb-2">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+</form>
+<div id="total-info"></div>
+</div>
+
+</div>
+
+</div>
+</div>
 @endsection
 @section('js_after')
+<script src="{{ asset('js/back/pretraga-ajax.js') }}"></script>
+<script src="{{ asset('js/back/dodajRed.js') }}"></script>
 <script>
     const isLeapYear = (year) => {
   return (
@@ -380,6 +123,7 @@ let month_picker = document.querySelector('#month-picker');
 const dayTextFormate = document.querySelector('.day-text-formate');
 const timeFormate = document.querySelector('.time-formate');
 const dateFormate = document.querySelector('.date-formate');
+const dailyMenuDiv = document.querySelector('.daily-menu');
 
 month_picker.onclick = () => {
   month_list.classList.remove('hideonce');
@@ -431,8 +175,106 @@ const generateCalendar = (month, year) => {
 
       // Add click event listener to each date cell
       day.addEventListener('click', function() {
-        alert(`${month_names[month]} ${date}, ${year}`);
-      });
+        const selectedDateString = `${month_names[month]} ${date}, ${year}`;
+        const selectedDate = new Date(selectedDateString);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);    
+              // Dohvatite mjesec, dan i godinu iz selectedDate
+        const selectedMonth = selectedDate.getMonth() + 1; // Dodajte 1 jer je getMonth() 0-indeksiran
+        const selectedDay = selectedDate.getDate();
+        const selectedYear = selectedDate.getFullYear();    
+        // Formatirajte datum kao string "MM/DD/YYYY"
+       const formattedDate = `${selectedDay}/${selectedMonth}/${selectedYear}`;  
+
+          dailyMenuDiv.innerHTML = '<h4>Menu</h4>';
+          document.getElementById('date').value = formattedDate;
+          if (document.getElementById('noviUnos').style.display == "none")
+            document.getElementById('noviUnos').style.display = "block";
+        
+            var data = { date: formattedDate };
+            var form = document.getElementById('unos-forma');
+            var newRowsDiv = document.getElementById('new-rows');
+            var totalInfoDiv = document.getElementById('total-info');
+            newRowsDiv.innerHTML = '';
+            totalInfoDiv.innerHTML = '';
+        
+          // Pošaljite AJAX zahtjev
+    fetch('/check-menu', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // Dodajte CSRF token
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+         
+      if (data.exists) {
+     
+    form.action = '{{ route('menu.update', ['id' => ':id']) }}'.replace(':id', data.id);
+    var proteins = 0;
+    var carbs = 0;
+    var fats = 0;
+    var calories = 0;
+    var foodItems = @json($foodItems);
+   
+    // Iteriramo kroz sastojke obroka
+    data.ingredients.forEach(function(ingredient) {
+        var parts = ingredient.split('-');
+        var foodItem = null; // Resetiranje foodItem na početku svake iteracije
+        if (parts.length === 2) {
+            var namirnica = parts[0];
+            var kolicina = parts[1];
+            foodItem = foodItems.find(function(item) {
+                return item.name === namirnica;
+            });
+            if (foodItem) {
+                proteins += foodItem.proteins * kolicina / 100;
+                carbs += foodItem.carbs * kolicina / 100;
+                fats += foodItem.fats * kolicina / 100;
+                calories += foodItem.calories * kolicina / 100;
+            }
+        }
+
+        // Ako postoji foodItem, dodajemo HTML za prikaz sastojka u formi
+        if (foodItem) {
+            var rowHtml = '<div class="row mb-3 align-items-center">';
+            rowHtml += '<div class="col-md-6">';
+            rowHtml += '<input type="text" class="form-control" name="namirnica[]" value="' + namirnica + '" >';
+            rowHtml += '</div>';
+            rowHtml += '<div class="col-md-4">';
+            rowHtml += '<input type="number" class="form-control" name="kolicina[]" value="' + kolicina + '" >';
+            rowHtml += '</div>';
+            rowHtml += '<div class="col-md-2">';
+            rowHtml += '<a role="button" class="remove-row" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">';
+            rowHtml += '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>';
+            rowHtml += '<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>';
+            rowHtml += '</svg></a>';
+            rowHtml += '</div>';
+            rowHtml += '</div>';
+
+            // Dodajemo HTML u formu
+            newRowsDiv.insertAdjacentHTML('beforeend', rowHtml);
+            
+         
+        }
+    });
+    var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
+    infoHtml += '<p><span id="proteins">Proteins: '+proteins+'</span><br>';
+    infoHtml += '<span id="carbs">Carbs: '+carbs+'</span><br>';
+    infoHtml += '<span id="fats">Fats: '+fats+'</span><br>';
+    infoHtml += '<span id="calories">Calories: '+calories+'</span></p></div></div>';
+    totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
+} else {
+    form.action = '{{ route('menus.store') }}';
+}
+
+    })
+    .catch(error => console.error('Error:', error));
+    
+  
+});
 
       if (date === currentDate.getDate() &&
         year === currentDate.getFullYear() &&
@@ -483,7 +325,7 @@ generateCalendar(currentMonth.value, currentYear.value);
 
 const todayShowTime = document.querySelector('.time-formate');
 const todayShowDate = document.querySelector('.date-formate');
-
+/*
 const currshowDate = new Date();
 const showCurrentDateOption = {
   year: 'numeric',
@@ -512,6 +354,91 @@ setInterval(() => {
       '0'
     )}: ${`${timer.getSeconds()}`.padStart(2, '0')}`;
   todayShowTime.textContent = formateTimer;
-}, 1000);   
+}, 1000);  
+*/
+/* brisanje starog retka namirnice */
+document.addEventListener('DOMContentLoaded', function () {
+    var newRowsDiv = document.getElementById('new-rows');
+
+    // Delegirajte click događaj na newRowsDiv
+    newRowsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row'
+        if (event.target.classList.contains('remove-row') || event.target.closest('.remove-row')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+            }
+        }
+    });
+});
+// automatsko ažuriranje ukupnih informacija
+document.addEventListener('DOMContentLoaded', function () {
+    var newRowsDiv = document.getElementById('new-rows');
+    var totalInfoDiv = document.getElementById('total-info');
+    
+    // Funkcija za ažuriranje ukupnih vrijednosti
+    function updateTotalInfo() {
+        var proteins = 0;
+        var carbs = 0;
+        var fats = 0;
+        var calories = 0;
+        var foodItems = @json($foodItems);
+        
+        newRowsDiv.querySelectorAll('.row').forEach(function(row) {
+            var namirnicaInput = row.querySelector('input[name="namirnica[]"]');
+            var kolicinaInput = row.querySelector('input[name="kolicina[]"]');
+            
+            if (namirnicaInput && kolicinaInput) {
+                var namirnica = namirnicaInput.value;
+                var kolicina = parseFloat(kolicinaInput.value) || 0;
+                
+                var foodItem = foodItems.find(function(item) {
+                    return item.name === namirnica;
+                });
+                
+                if (foodItem) {
+                    proteins += foodItem.proteins * kolicina / 100;
+                    carbs += foodItem.carbs * kolicina / 100;
+                    fats += foodItem.fats * kolicina / 100;
+                    calories += foodItem.calories * kolicina / 100;
+                }
+            }
+        });
+        
+        var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
+        infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(2) + '</span><br>';
+        infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(2) + '</span><br>';
+        infoHtml += '<span id="fats">Fats: ' + fats.toFixed(2) + '</span><br>';
+        infoHtml += '<span id="calories">Calories: ' + calories.toFixed(2) + '</span></p></div></div>';
+        
+        totalInfoDiv.innerHTML = infoHtml;
+    }
+    
+    // Event listener za promjene u input poljima unutar new-rows
+    newRowsDiv.addEventListener('input', function (event) {
+        if (event.target.matches('input[name="namirnica[]"], input[name="kolicina[]"]')) {
+            updateTotalInfo();
+        }
+    });
+
+    // Delegirajte click događaj na newRowsDiv
+    newRowsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row'
+        if (event.target.classList.contains('remove-row') || event.target.closest('.remove-row')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+                updateTotalInfo();
+            }
+        }
+    });
+});
+
     </script>
 @endsection
