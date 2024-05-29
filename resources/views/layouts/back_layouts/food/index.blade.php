@@ -147,15 +147,10 @@
                             <label for="sort"><b>Sort:</b></label>
                             <textarea class="form-control" rows="2" name="sort" id="sort" style="width: 100%"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" >
                             <label for="status"><b>Status:</b></label>
-                            <select class="form-select" name="status">
-                            <option selected id="status"></option>
-  <option value="private">Private</option>
-  <option value="public">Public</option>
-
-</select>
-                            
+                            <select class="form-select" name="status" id="status">
+                            </select>                            
                         </div>
                     </div>
                     <div class="col-md-6">                   
@@ -203,7 +198,7 @@ function newFood() {
         document.getElementById('noviUnos').style.display = "none";
 }
 function editFood(namirnica) {
-
+var statusHtml = '';
 fetch("/food/" + namirnica) 
   .then(response => {
     if (!response.ok) {
@@ -228,7 +223,12 @@ fetch("/food/" + namirnica)
     document.getElementById('fats').value = data.fats; 
     document.getElementById('saturated-fats').value = data['saturated-fats'];
     document.getElementById('calories').value = data.calories;
-    document.getElementById('status').value = data.status;     
+    if (data.status == "private") {
+            statusHtml = '<option value="private" selected>Private</option><option value="public">Public</option>';
+        } else {
+            statusHtml = '<option value="public" selected>Public</option><option value="private">Private</option>';
+        }
+    document.getElementById('status').innerHTML = statusHtml;    
     document.getElementById('edit_forma').action = "/foods/" + data.id;
   })
   .catch(error => {

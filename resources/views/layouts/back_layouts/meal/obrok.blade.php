@@ -94,7 +94,7 @@
                                  <option value="private" selected>Private</option>                            
                                  <option value="public">Public</option>
                                 @else
-                                <option value="publioc" selected>Public</option> 
+                                <option value="public" selected>Public</option> 
                                 <option value="private">Private</option> 
                                 @endif                        
                             </select>
@@ -146,7 +146,7 @@
                     <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"  value="{{$foodItem->id}}"> 
                 </div>
                 <div class="col-md-4">
-                    <input type="number" class="form-control" name="kolicina[]" value="{{$kolicina}}" readonly>
+                    <input type="number" class="form-control" name="kolicina[]" value="{{$kolicina}}">
                 </div>
                 <div class="col-md-2">
     <a role="button" class="remove-row" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">

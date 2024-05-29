@@ -35,9 +35,19 @@ class MenusController extends Controller
         $menu = Menu::where('date', $date)->first();
         $ingredients = explode(',', $menu->ingredients);
         $id = $menu->id;
+        $proteins = $menu->proteins;
+        $carbs = $menu->carbs;
+        $sugars = $menu->sugars;
+        $fibers = $menu->fibers;
+        $fats = $menu->fats;
+        $saturated_fats = $menu->getAttribute('saturated-fats');
+        $calories = $menu->calories;
+
     }
     
-    return response()->json(['exists' => $menuExists, 'ingredients' => $ingredients, 'id' => $id]);
+    return response()->json(['exists' => $menuExists, 'ingredients' => $ingredients, 'id' => $id,
+'proteins'=>$proteins,'carbs'=>$carbs,'sugars'=>$sugars,'fibers'=>$fibers,'fats'=>$fats,
+'saturated_fats'=>$saturated_fats,'calories'=>$calories]);
 }
 
     /*

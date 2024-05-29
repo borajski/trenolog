@@ -64,12 +64,12 @@
    <!-- unos namirnica -->
    <div class="row  mb-3 align-items-center"> 
    <div class="col-md-6">     
-                    <label for="ingredients"><b>Ingredients:</b></label>               
+                    <label for="ingredients"><b>Single ingredients:</b></label>               
                     <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
                     <div class="search-results"></div>
                 </div>
                 <div class="col-md-4">
-                    <input type="number" class="form-control" placeholder="Quantity" name="kolicina[]">
+                    <input type="number" class="form-control" placeholder="Quantity (g)" name="kolicina[]">
                     <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"> 
                   </div>
                 <div class="col-md-2">
@@ -232,19 +232,14 @@ const generateCalendar = (month, year) => {
              foodItem = foodItems.find(function(item) {
                 return item.id === id; // Promijenjena usporedba na ID
             });
-            if (foodItem) {
-                proteins += foodItem.proteins * kolicina / 100;
-                carbs += foodItem.carbs * kolicina / 100;
-                fats += foodItem.fats * kolicina / 100;
-                calories += foodItem.calories * kolicina / 100;
-            }
         }
 
         // Ako postoji foodItem, dodajemo HTML za prikaz sastojka u formi
         if (foodItem) {
             var rowHtml = '<div class="row mb-3 align-items-center">';
             rowHtml += '<div class="col-md-6">';
-            rowHtml += '<input type="text" class="form-control" name="namirnica[]" value="' + foodItem.name + '" >';
+            rowHtml += '<input type="text" class="form-control" name="namirnica[]" value="' + foodItem.name + '" readonly>';
+            rowHtml += '<input type="hidden" class="form-control" name="identifikacija[]" value="' + foodItem.id + '" >';
             rowHtml += '</div>';
             rowHtml += '<div class="col-md-4">';
             rowHtml += '<input type="number" class="form-control" name="kolicina[]" value="' + kolicina + '" >';
@@ -264,10 +259,10 @@ const generateCalendar = (month, year) => {
         }
     });
     var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
-    infoHtml += '<p><span id="proteins">Proteins: '+proteins+'</span><br>';
-    infoHtml += '<span id="carbs">Carbs: '+carbs+'</span><br>';
-    infoHtml += '<span id="fats">Fats: '+fats+'</span><br>';
-    infoHtml += '<span id="calories">Calories: '+calories+'</span></p></div></div>';
+    infoHtml += '<p><span id="proteins">Proteins: '+data.proteins+'</span><br>';
+    infoHtml += '<span id="carbs">Carbs: '+data.carbs+'</span><br>';
+    infoHtml += '<span id="fats">Fats: '+data.fats+'</span><br>';
+    infoHtml += '<span id="calories">Calories: '+data.calories+'</span></p></div></div>';
     totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
 } else {
     form.action = '{{ route('menus.store') }}';
@@ -393,13 +388,15 @@ document.addEventListener('DOMContentLoaded', function () {
         newRowsDiv.querySelectorAll('.row').forEach(function(row) {
             var namirnicaInput = row.querySelector('input[name="namirnica[]"]');
             var kolicinaInput = row.querySelector('input[name="kolicina[]"]');
+            var identInput = row.querySelector('input[name="identifikacija[]"]');
             
             if (namirnicaInput && kolicinaInput) {
                 var namirnica = namirnicaInput.value;
                 var kolicina = parseFloat(kolicinaInput.value) || 0;
+                var namirnica_id = +identInput.value;
                 
                 var foodItem = foodItems.find(function(item) {
-                    return item.name === namirnica;
+                    return item.id === namirnica_id;
                 });
                 
                 if (foodItem) {

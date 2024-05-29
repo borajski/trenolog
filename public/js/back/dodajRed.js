@@ -11,7 +11,7 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
         newRow.innerHTML = `
         
             <div class="col-md-6">
-                <input type="text" class="form-control" name="namirnica[]" value="${food}" >
+                <input type="text" class="form-control" name="namirnica[]" value="${food}" readonly>
                 <input type="hidden" class="form-control " id="food-id" name="identifikacija[]" value="${identifikacija}">
                    
             </div>
