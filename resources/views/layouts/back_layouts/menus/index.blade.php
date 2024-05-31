@@ -2,6 +2,7 @@
 @section('css_before')
 <meta name="csrf-token" content="{{ csrf_token() }}">
  <link rel="stylesheet" href="{{asset('css/calendar.css?v=').time()}}">
+ <link rel="stylesheet" href="{{asset('css/pretraga.css?v=').time()}}">
 @endsection
 @section('content')
 <div class="container">
@@ -68,7 +69,7 @@
                     <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
                     <div class="search-results"></div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ">
                     <input type="number" class="form-control" placeholder="Quantity (g)" name="kolicina[]">
                     <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"> 
                   </div>
@@ -80,6 +81,26 @@
                 </div>
 </div> <!-- kraj unosa namirnica -->
 <div id="new-rows"></div>
+<!--unos pojedinačnih obroka -->
+<div class="row  mb-3 align-items-center"> 
+   <div class="col-md-6">     
+                    <label for="ingredients"><b>Meals intake:</b></label>               
+                    <input type="text" class="form-control" placeholder="Meal" id="meal-search" name="obrok[]">
+                    <div class="search-results-meals"></div>
+                </div>
+                <div class="col-md-4">
+                    <input type="number" class="form-control" placeholder="Servings (n)" name="porcija[]">
+                    <input type="hidden" class="form-control " id="meal-id" name="identobrok[]"> 
+                  </div>
+                <div class="col-md-2">
+                    <a role="button" class="add-mealrow" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg></a>
+                </div>
+</div>
+<!--kraj unosa obroka-->
+<div id="new-rows-meals"></div>
 <div class="text-end pt-3 pb-2">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
@@ -94,7 +115,9 @@
 @endsection
 @section('js_after')
 <script src="{{ asset('js/back/pretraga-ajax.js') }}"></script>
+<script src="{{ asset('js/back/pretraga-obroka.js') }}"></script>
 <script src="{{ asset('js/back/dodajRed.js') }}"></script>
+<script src="{{ asset('js/back/dodajRedObrok.js') }}"></script>
 <script>
     const isLeapYear = (year) => {
   return (
@@ -195,8 +218,10 @@ const generateCalendar = (month, year) => {
             var data = { date: formattedDate };
             var form = document.getElementById('unos-forma');
             var newRowsDiv = document.getElementById('new-rows');
+            var newRowsMealsDiv = document.getElementById('new-rows-meals');
             var totalInfoDiv = document.getElementById('total-info');
             newRowsDiv.innerHTML = '';
+            newRowsMealsDiv.innerHTML = '';
             totalInfoDiv.innerHTML = '';
         
           // Pošaljite AJAX zahtjev
@@ -219,10 +244,9 @@ const generateCalendar = (month, year) => {
     var fats = 0;
     var calories = 0;
     var foodItems = @json($foodItems);
-
-
+    var mealItems = @json($mealItems);
    
-    // Iteriramo kroz sastojke obroka
+    // Iteriramo kroz sastojke obroka pojedinačne namirnice
     data.ingredients.forEach(function(ingredient) {
         var parts = ingredient.split('-');
         var foodItem = null; // Resetiranje foodItem na početku svake iteracije
@@ -233,7 +257,6 @@ const generateCalendar = (month, year) => {
                 return item.id === id; // Promijenjena usporedba na ID
             });
         }
-
         // Ako postoji foodItem, dodajemo HTML za prikaz sastojka u formi
         if (foodItem) {
             var rowHtml = '<div class="row mb-3 align-items-center">';
@@ -253,11 +276,46 @@ const generateCalendar = (month, year) => {
             rowHtml += '</div>';
 
             // Dodajemo HTML u formu
-            newRowsDiv.insertAdjacentHTML('beforeend', rowHtml);
-            
-         
+            newRowsDiv.insertAdjacentHTML('beforeend', rowHtml);             
         }
     });
+
+   // Iteriramo kroz sastojke menua pojedinačni obroci
+    data.meals.forEach(function(meal) {
+        var parts = meal.split('-');
+        var mealItem = null; // Resetiranje mealItem na početku svake iteracije
+        if (parts.length === 2) {
+            var id_meal = +parts[0];
+            var porcija = parts[1];
+            mealItem = mealItems.find(function(item) {
+                return item.id === id_meal; // Promijenjena usporedba na ID
+            });
+        }
+        // Ako postoji mealItem, dodajemo HTML za prikaz sastojka u formi
+        if (mealItem) {
+            var rowHtml = '<div class="row mb-3 align-items-center">';
+            rowHtml += '<div class="col-md-6">';
+            rowHtml += '<input type="text" class="form-control" name="obrok[]" value="' + mealItem.name + '" readonly>';
+            rowHtml += '<input type="hidden" class="form-control" name="identobrok[]" value="' + mealItem.id + '" >';
+            rowHtml += '</div>';
+            rowHtml += '<div class="col-md-4">';
+            rowHtml += '<input type="number" class="form-control" name="porcija[]" value="' + porcija + '" >';
+            rowHtml += '</div>';
+            rowHtml += '<div class="col-md-2">';
+            rowHtml += '<a role="button" class="remove-row-meals" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">';
+            rowHtml += '<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>';
+            rowHtml += '<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>';
+            rowHtml += '</svg></a>';
+            rowHtml += '</div>';
+            rowHtml += '</div>';
+
+            // Dodajemo HTML u formu
+            newRowsMealsDiv.insertAdjacentHTML('beforeend', rowHtml);             
+        }
+    });
+
+
+
     var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
     infoHtml += '<p><span id="proteins">Proteins: '+data.proteins+'</span><br>';
     infoHtml += '<span id="carbs">Carbs: '+data.carbs+'</span><br>';
@@ -357,6 +415,7 @@ setInterval(() => {
 /* brisanje starog retka namirnice */
 document.addEventListener('DOMContentLoaded', function () {
     var newRowsDiv = document.getElementById('new-rows');
+    var newRowsMealsDiv = document.getElementById('new-rows-meals');
 
     // Delegirajte click događaj na newRowsDiv
     newRowsDiv.addEventListener('click', function (event) {
@@ -371,10 +430,25 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+
+    // Delegirajte click događaj na newRowsMealsDiv
+    newRowsMealsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row-meals'
+        if (event.target.classList.contains('remove-row-meals') || event.target.closest('.remove-row-meals')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+            }
+        }
+    });
 });
-// automatsko ažuriranje ukupnih informacija
+  
 document.addEventListener('DOMContentLoaded', function () {
     var newRowsDiv = document.getElementById('new-rows');
+    var newRowsMealsDiv = document.getElementById('new-rows-meals');
     var totalInfoDiv = document.getElementById('total-info');
     
     // Funkcija za ažuriranje ukupnih vrijednosti
@@ -384,12 +458,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var fats = 0;
         var calories = 0;
         var foodItems = @json($foodItems);
+        var mealItems = @json($mealItems);
         
         newRowsDiv.querySelectorAll('.row').forEach(function(row) {
             var namirnicaInput = row.querySelector('input[name="namirnica[]"]');
             var kolicinaInput = row.querySelector('input[name="kolicina[]"]');
             var identInput = row.querySelector('input[name="identifikacija[]"]');
-            
+
             if (namirnicaInput && kolicinaInput) {
                 var namirnica = namirnicaInput.value;
                 var kolicina = parseFloat(kolicinaInput.value) || 0;
@@ -404,6 +479,29 @@ document.addEventListener('DOMContentLoaded', function () {
                     carbs += foodItem.carbs * kolicina / 100;
                     fats += foodItem.fats * kolicina / 100;
                     calories += foodItem.calories * kolicina / 100;
+                }
+            }
+        });
+
+        newRowsMealsDiv.querySelectorAll('.row').forEach(function(row) {
+            var obrokInput = row.querySelector('input[name="obrok[]"]');
+            var porcijaInput = row.querySelector('input[name="porcija[]"]');
+            var identobrokInput = row.querySelector('input[name="identobrok[]"]');
+            
+            if (obrokInput && porcijaInput) {
+                var obrok = obrokInput.value;
+                var porcija = parseFloat(porcijaInput.value) || 0;
+                var obrok_id = +identobrokInput.value;
+                
+                var mealItem = mealItems.find(function(item) {
+                    return item.id === obrok_id;
+                });
+                
+                if (mealItem) {
+                    proteins += mealItem.proteins * porcija;
+                    carbs += mealItem.carbs * porcija;
+                    fats += mealItem.fats * porcija;
+                    calories += mealItem.calories * porcija;
                 }
             }
         });
@@ -424,6 +522,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // Event listener za promjene u input poljima unutar new-rows-meals
+    newRowsMealsDiv.addEventListener('input', function (event) {
+        if (event.target.matches('input[name="obrok[]"], input[name="porcija[]"]')) {
+            updateTotalInfo();
+        }
+    });
+
     // Delegirajte click događaj na newRowsDiv
     newRowsDiv.addEventListener('click', function (event) {
         // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row'
@@ -438,7 +543,26 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     });
+    
+    // Delegirajte click događaj na newRowsMealsDiv
+    newRowsMealsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row-meal'
+        if (event.target.classList.contains('remove-row-meal') || event.target.closest('.remove-row-meal')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+                updateTotalInfo();
+            }
+        }
+    });
 });
+
+
+
+
 
     </script>
 @endsection

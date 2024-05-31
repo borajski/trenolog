@@ -1,6 +1,8 @@
 <nav class="navbar  navbar-expand-lg navbar-dark" style="background-color: #000428;">
     <div class="container">
-        <a class="navbar-brand" href="/">Trenolog</a>
+        <a class="navbar-brand" href="/">  
+        <img class=" img-responsive" name="brand_image"
+                                src="{{asset('images/assets/eat2bfit_logo.svg')}}"  alt="brand-image"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

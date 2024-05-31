@@ -31,10 +31,9 @@ class Meal extends Model
 {   
     $ingredients = "";
     $food = $request->namirnica;
-
     $food_id =$request->identifikacija;
     $quantity = $request->kolicina;
-
+    
     $proteins = 0;
     $carbs = 0;
     $sugars = 0;
@@ -42,11 +41,13 @@ class Meal extends Model
     $fats = 0;
     $saturated_fats = 0;    
     $calories = 0;
-
+ 
     foreach($food as $key => $namirnica)
     {
         $kolicina = $quantity[$key];
         $id_namirnica = $food_id[$key];
+      
+      
         $food_details = Food::find($id_namirnica);
 
         if ($food_details) {
@@ -59,11 +60,12 @@ class Meal extends Model
         $saturated_fats = $saturated_fats + $food_details->saturated_fats * $kolicina / 100;
         $calories = $calories + $food_details->calories * $kolicina / 100;
         }
-       
-        $ingredients = $ingredients.$id_namirnica.'-'.$kolicina.',';
-        
+             
+        $ingredients = $ingredients.$id_namirnica.'-'.$kolicina.',';        
     }
     $ingredients = rtrim($ingredients, ',');
+
+
     return self::insertGetId([
         'user_id'         =>  auth()->user()->id,
         'name'            =>  $request->name,

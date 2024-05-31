@@ -1,33 +1,6 @@
 @extends('layouts.back_layouts.back-master')
 @section('css_before')
-<style>
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-/* za search */
-.search-results {
-            border: none;
-            max-height: 150px;
-            overflow-y: auto;
-      
-        }
-        .search-results div {
-            
-            cursor: pointer;
-        }
-        .search-results div:hover {
-            background-color: #f0f0f0;
-        }
-
-</style>
+<link rel="stylesheet" href="{{asset('css/pretraga.css?v=').time()}}">
 @endsection
 @section('content')
 <div class="container">

@@ -47,6 +47,7 @@ Route::get('/meals', [MealsController::class, 'index']);
 Route::post('meals/meal/{id}', [MealsController::class, 'update'])->name('meal.update');
 Route::get('meals/{{id}}', [MealsController::class, 'show'])->name('meal');
 Route::get('meals/del_meal/{id}',[MealsController::class, 'destroy']);
+Route::get('/search-meal', [MealsController::class, 'search'])->name('search.meal');
 
 // Menu routes //
 Route::resource('menus', MenusController::class);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Food;
+use App\Models\Meal;
 
 
 class MenusController extends Controller
@@ -19,8 +20,9 @@ class MenusController extends Controller
         // $query = (new Menu())->newQuery();
        // $menus = $query->orderBy('date')->get();
        $foodItems = Food::all();
-        return view('layouts.back_layouts.menus.index')->with('foodItems', $foodItems);
-        //->with('menus',$menus);
+       $mealItems = Meal::all();
+      return view('layouts.back_layouts.menus.index')->with(['foodItems' => $foodItems, 'mealItems' => $mealItems]);
+
     }
     public function checkMenu(Request $request)
 {
@@ -42,12 +44,13 @@ class MenusController extends Controller
         $fats = $menu->fats;
         $saturated_fats = $menu->getAttribute('saturated-fats');
         $calories = $menu->calories;
+        $meals = explode(',', $menu->meals);
 
     }
     
     return response()->json(['exists' => $menuExists, 'ingredients' => $ingredients, 'id' => $id,
 'proteins'=>$proteins,'carbs'=>$carbs,'sugars'=>$sugars,'fibers'=>$fibers,'fats'=>$fats,
-'saturated_fats'=>$saturated_fats,'calories'=>$calories]);
+'saturated_fats'=>$saturated_fats,'calories'=>$calories,'meals'=>$meals]);
 }
 
     /*

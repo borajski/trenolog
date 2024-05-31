@@ -54,6 +54,12 @@ class MealsController extends Controller
         }
     
     }
+    public function search(Request $request)
+{
+    $query = $request->get('query');
+    $meals = Meal::where('name', 'LIKE', "%{$query}%")->get();
+    return response()->json($meals);
+}
     
 
     /**

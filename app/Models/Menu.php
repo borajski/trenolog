@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Food;
+use App\Models\Meal;
 
 class Menu extends Model
 {
@@ -17,10 +18,7 @@ class Menu extends Model
     {
       $request->validate([
           'date'        => 'required',
-          'namirnica' => 'required',
-          'identifikacija' => 'required',
-          'kolicina'  => 'required',
-        ]);    
+          ]);    
       $this->setRequest($request);    
       return $this;
     }
@@ -28,9 +26,13 @@ class Menu extends Model
 {   
   $ingredients = "";
   $food = $request->namirnica;
-
   $food_id =$request->identifikacija;
   $quantity = $request->kolicina;
+
+  $obroci = "";
+  $obrok = $request->obrok;
+  $porcija = $request->porcija;
+  $obrok_id = $request->identobrok; 
 
   $proteins = 0;
   $carbs = 0;
@@ -40,6 +42,7 @@ class Menu extends Model
   $saturated_fats = 0;    
   $calories = 0;
 
+  // pretraživanje detalja svake namirnice
   foreach($food as $key => $namirnica)
   {
       $kolicina = $quantity[$key];
@@ -61,6 +64,29 @@ class Menu extends Model
       
   }
   $ingredients = rtrim($ingredients, ',');
+
+  //pretraživanje detalja svakog obroka
+  foreach($obrok as $key => $obrok)
+  {
+      $kolicina = $porcija[$key];
+      $id_obrok = $obrok_id[$key];
+      $meal_details = Meal::find($id_obrok);
+
+      if ($meal_details) {
+
+      $proteins = $proteins + $meal_details->proteins * $kolicina;
+      $carbs = $carbs + $meal_details->carbs * $kolicina;
+      $sugars = $sugars + $meal_details->sugars * $kolicina;
+      $fibers = $fibers + $meal_details->fibers * $kolicina;
+      $fats = $fats + $meal_details->fats * $kolicina;
+      $saturated_fats = $saturated_fats + $meal_details->saturated_fats * $kolicina;
+      $calories = $calories + $meal_details->calories * $kolicina;
+      }
+     
+      $obroci = $obroci.$id_obrok.'-'.$kolicina.',';
+      
+  }
+  $obroci = rtrim($obroci, ',');
    
     return self::insertGetId([
         'user_id'         =>  auth()->user()->id,
@@ -73,6 +99,7 @@ class Menu extends Model
         'fats'            =>  $fats,
         'saturated-fats'  =>  $saturated_fats,
         'calories'        =>  $calories,
+        'meals'           =>  $obroci,
         'created_at'    =>  Carbon::now(),
         'updated_at'    =>  Carbon::now()
     ]);
@@ -84,11 +111,15 @@ private function setRequest($request)
 
   public static function updateData($request, $meal_id)
   {
-    $ingredients = "";
-    $food = $request->namirnica;
-
+  $ingredients = "";
+  $food = $request->namirnica;
   $food_id =$request->identifikacija;
   $quantity = $request->kolicina;
+
+  $obroci = "";
+  $obrok = $request->obrok;
+  $porcija = $request->porcija;
+  $obrok_id = $request->identobrok; 
 
   $proteins = 0;
   $carbs = 0;
@@ -119,6 +150,29 @@ private function setRequest($request)
       
   }
   $ingredients = rtrim($ingredients, ',');
+
+    //pretraživanje detalja svakog obroka
+    foreach($obrok as $key => $obrok)
+    {
+        $kolicina = $porcija[$key];
+        $id_obrok = $obrok_id[$key];
+        $meal_details = Meal::find($id_obrok);
+  
+        if ($meal_details) {
+  
+        $proteins = $proteins + $meal_details->proteins * $kolicina;
+        $carbs = $carbs + $meal_details->carbs * $kolicina;
+        $sugars = $sugars + $meal_details->sugars * $kolicina;
+        $fibers = $fibers + $meal_details->fibers * $kolicina;
+        $fats = $fats + $meal_details->fats * $kolicina;
+        $saturated_fats = $saturated_fats + $meal_details->saturated_fats * $kolicina;
+        $calories = $calories + $meal_details->calories * $kolicina;
+        }
+       
+        $obroci = $obroci.$id_obrok.'-'.$kolicina.',';
+        
+    }
+    $obroci = rtrim($obroci, ',');
       return self::where('id', $meal_id)->update([
         'user_id'         =>  auth()->user()->id,
         'date'            =>  $request->date,
@@ -130,6 +184,7 @@ private function setRequest($request)
         'fats'            =>  $fats,
         'saturated-fats'  =>  $saturated_fats,
         'calories'        =>  $calories,
+        'meals'           =>  $obroci,
         'updated_at' => Carbon::now()
       ]);
   }
