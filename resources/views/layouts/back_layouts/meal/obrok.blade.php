@@ -156,8 +156,7 @@
                     </svg></a>
                 </div>
     </div>
-    @endif
-    
+    @endif    
 @endforeach
 
                           
@@ -169,9 +168,10 @@
                     <button type="submit" class="btn btn-primary">Edit</button>
                 </div>
             </form>
+            <div id="total-info">
             <h5>Total:</h5>
             <p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs,1)}}<br>Sugars:{{round($obrok->sugars,1)}}<br>Fibers:{{round($obrok->fibers,1)}}<br>Fats:{{round($obrok->fats,1)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'),1)}}<br>Calories:{{round($obrok->calories,1)}}</p>
-
+</div>
       </div>
 
 </div>

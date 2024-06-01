@@ -16,9 +16,10 @@ class FoodsController extends Controller
     public function index()
     {
         $query = (new Food())->newQuery();
-        $namirnice = $query->orderBy('name')->get();
-        return view('layouts.back_layouts.food.index')->with('namirnice',$namirnice); 
+        $namirnice = $query->orderBy('name')->paginate(10);
+        return view('layouts.back_layouts.food.index')->with('namirnice', $namirnice); 
     }
+    
 
     /**
      * Show the form for creating a new resource.
