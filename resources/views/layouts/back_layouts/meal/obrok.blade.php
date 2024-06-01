@@ -20,10 +20,11 @@
         <p>      
 @php
     $ingredients = explode(',', $obrok->ingredients);
-    $proteins = 0;
+   /* $proteins = 0;
     $carbs = 0;
     $fats = 0;
     $calories = 0;
+    */
 @endphp
 @foreach($ingredients as $ingredient)
     @php
@@ -43,8 +44,8 @@
     
 @endforeach
 </p>
-<h5>Total:</h5>
-<p>Proteins: {{$obrok->proteins}}<br>Carbs:{{$obrok->carbs}}<br>Fats:{{$obrok->fats}}<br>Calories:{{$obrok->calories}}</p>
+<h5><b>Total:</b></h5>
+<p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs)}}<br>Sugars:{{round($obrok->sugars)}}<br>Fibers:{{round($obrok->fibers)}}<br>Fats:{{round($obrok->fats)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'))}}<br>Calories:{{round($obrok->calories)}}</p>
 
       </div>
     </div>
@@ -169,7 +170,7 @@
                 </div>
             </form>
             <h5>Total:</h5>
-<p>Proteins: {{$obrok->proteins}}<br>Carbs:{{$obrok->carbs}}<br>Fats:{{$obrok->fats}}<br>Calories:{{$obrok->calories}}</p>
+            <p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs)}}<br>Sugars:{{round($obrok->sugars)}}<br>Fibers:{{round($obrok->fibers)}}<br>Fats:{{round($obrok->fats)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'))}}<br>Calories:{{round($obrok->calories)}}</p>
 
       </div>
 
