@@ -119,6 +119,10 @@
 <script src="{{ asset('js/back/dodajRed.js') }}"></script>
 <script src="{{ asset('js/back/dodajRedObrok.js') }}"></script>
 <script>
+   function toFixedOrZero(value, decimals) {
+        var num = parseFloat(value);
+        return isNaN(num) ? (0).toFixed(decimals) : num.toFixed(decimals);
+        }
     const isLeapYear = (year) => {
   return (
     (year % 4 === 0 && year % 100 !== 0 && year % 400 !== 0) ||
@@ -281,7 +285,7 @@ const generateCalendar = (month, year) => {
     data.meals.forEach(function(meal) {
         var parts = meal.split('-');
         var mealItem = null; // Resetiranje mealItem na početku svake iteracije
-        if (parts.length === 2) {
+       if (parts.length === 2) {
             var id_meal = +parts[0];
             var porcija = parts[1];
             mealItem = mealItems.find(function(item) {
@@ -313,15 +317,15 @@ const generateCalendar = (month, year) => {
 
 
 
-    var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
-    infoHtml += '<p><span id="proteins">Proteins: '+data.proteins+'</span><br>';
-    infoHtml += '<span id="carbs">Carbs: '+data.carbs+'</span><br>';
-    infoHtml += '<span id="sugars">Sugars: '+data.sugars+'</span><br>';
-    infoHtml += '<span id="fibers">Fibers: '+data.fibers+'</span><br>';
-    infoHtml += '<span id="fats">Fats: '+data.fats+'</span><br>';
-    infoHtml += '<span id="saturated_fats">Saturated fats: '+data.saturated_fats+'</span><br>';
-    infoHtml += '<span id="calories">Calories: '+data.calories+'</span></p></div></div>';
-    totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
+    var infoHtml = '<div class="row"><div class="col"><h4><b>Total</b></h4>';
+infoHtml += '<p><span id="proteins">Proteins: ' + toFixedOrZero(data.proteins, 1) + '</span><br>';
+infoHtml += '<span id="carbs">Carbs: ' + toFixedOrZero(data.carbs, 1) + '</span><br>';
+infoHtml += '<span id="sugars">Sugars: ' + toFixedOrZero(data.sugars, 1) + '</span><br>';
+infoHtml += '<span id="fibers">Fibers: ' + toFixedOrZero(data.fibers, 1) + '</span><br>';
+infoHtml += '<span id="fats">Fats: ' + toFixedOrZero(data.fats, 1) + '</span><br>';
+infoHtml += '<span id="saturated_fats">Saturated fats: ' + toFixedOrZero(data.saturated_fats, 1) + '</span><br>';
+infoHtml += '<b><span id="calories">Calories: ' + toFixedOrZero(data.calories, 1) + '</span></b></p></div></div>';
+totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
 } else {
     form.action = '{{ route('menus.store') }}';
 }
@@ -515,14 +519,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         
-        var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
-        infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(2) + '</span><br>';
-        infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(2) + '</span><br>';
-        infoHtml += '<span id="sugars">Sugars: ' + sugars.toFixed(2) + '</span><br>';
-        infoHtml += '<span id="fibers">Fibers: ' + fibers.toFixed(2) + '</span><br>';
-        infoHtml += '<span id="fats">Fats: ' + fats.toFixed(2) + '</span><br>';
-        infoHtml += '<span id="saturated_fats">Saturated_fats: ' + saturated_fats.toFixed(2) + '</span><br>';
-        infoHtml += '<span id="calories">Calories: ' + calories.toFixed(2) + '</span></p></div></div>';
+        var infoHtml = '<div class="row"><div class="col"><h4><b>Total:</b></h4>';
+        infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="sugars">Sugars: ' + sugars.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="fibers">Fibers: ' + fibers.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="fats">Fats: ' + fats.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="saturated_fats">Saturated_fats: ' + saturated_fats.toFixed(1) + '</span><br>';
+        infoHtml += '<b><span id="calories">Calories: ' + calories.toFixed(1) + '</span></b></p></div></div>';
         
         totalInfoDiv.innerHTML = infoHtml;
     }
