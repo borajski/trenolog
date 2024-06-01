@@ -57,7 +57,7 @@ class Meal extends Model
         $sugars = $sugars + $food_details->sugars * $kolicina / 100;
         $fibers = $fibers + $food_details->fibers * $kolicina / 100;
         $fats = $fats + $food_details->fats * $kolicina / 100;
-        $saturated_fats = $saturated_fats + $food_details->saturated_fats * $kolicina / 100;
+        $saturated_fats = $saturated_fats + $food_details->getAttribute('saturated-fats') * $kolicina / 100;
         $calories = $calories + $food_details->calories * $kolicina / 100;
         }
              
@@ -122,7 +122,7 @@ private function setRequest($request)
         $sugars = $sugars + $food_details->sugars * $kolicina / 100;
         $fibers = $fibers + $food_details->fibers * $kolicina / 100;
         $fats = $fats + $food_details->fats * $kolicina / 100;
-        $saturated_fats = $saturated_fats + $food_details->saturated_fats * $kolicina / 100;
+        $saturated_fats = $saturated_fats + $food_details->getAttribute('saturated-fats') * $kolicina / 100;
         $calories = $calories + $food_details->calories * $kolicina / 100;
         }
        

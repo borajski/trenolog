@@ -56,7 +56,7 @@ class Menu extends Model
       $sugars = $sugars + $food_details->sugars * $kolicina / 100;
       $fibers = $fibers + $food_details->fibers * $kolicina / 100;
       $fats = $fats + $food_details->fats * $kolicina / 100;
-      $saturated_fats = $saturated_fats + $food_details->saturated_fats * $kolicina / 100;
+      $saturated_fats = $saturated_fats + $food_details->getAttribute('saturated-fats') * $kolicina / 100;
       $calories = $calories + $food_details->calories * $kolicina / 100;
       }
      
@@ -79,7 +79,7 @@ class Menu extends Model
       $sugars = $sugars + $meal_details->sugars * $kolicina;
       $fibers = $fibers + $meal_details->fibers * $kolicina;
       $fats = $fats + $meal_details->fats * $kolicina;
-      $saturated_fats = $saturated_fats + $meal_details->saturated_fats * $kolicina;
+      $saturated_fats = $saturated_fats + $meal_details->getAttribute('saturated-fats') * $kolicina;
       $calories = $calories + $meal_details->calories * $kolicina;
       }
      
@@ -142,7 +142,7 @@ private function setRequest($request)
       $sugars = $sugars + $food_details->sugars * $kolicina / 100;
       $fibers = $fibers + $food_details->fibers * $kolicina / 100;
       $fats = $fats + $food_details->fats * $kolicina / 100;
-      $saturated_fats = $saturated_fats + $food_details->saturated_fats * $kolicina / 100;
+      $saturated_fats = $saturated_fats + $food_details->getAttribute('saturated-fats') * $kolicina / 100;
       $calories = $calories + $food_details->calories * $kolicina / 100;
       }
      
@@ -165,7 +165,7 @@ private function setRequest($request)
         $sugars = $sugars + $meal_details->sugars * $kolicina;
         $fibers = $fibers + $meal_details->fibers * $kolicina;
         $fats = $fats + $meal_details->fats * $kolicina;
-        $saturated_fats = $saturated_fats + $meal_details->saturated_fats * $kolicina;
+        $saturated_fats = $saturated_fats + $meal_details->getAttribute('saturated-fats') * $kolicina;
         $calories = $calories + $meal_details->calories * $kolicina;
         }
        

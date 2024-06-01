@@ -29,15 +29,13 @@ class MenusController extends Controller
     $date = $request->input('date');
     $user_id = auth()->user()->id;
     // Provjerite postoji li meni za zadani datum
-    $menuExists = Menu::where('date', $date)
-                  ->where('user_id', $userId)
-                  ->exists();
+    $menuExists = Menu::where('date', $date)->where('user_id',$user_id)->exists();
 
     
     // Dohvatite sastojke menija ako meni postoji
     $ingredients = [];
     if ($menuExists) {
-        $menu = Menu::where('date', $date)->where('user_id', $userId)->first();
+        $menu = Menu::where('date', $date)->where('user_id',$user_id)->first();
         $ingredients = explode(',', $menu->ingredients);
         $id = $menu->id;
         $proteins = $menu->proteins;

@@ -239,10 +239,7 @@ const generateCalendar = (month, year) => {
       if (data.exists) {
      
     form.action = '{{ route('menu.update', ['id' => ':id']) }}'.replace(':id', data.id);
-    var proteins = 0;
-    var carbs = 0;
-    var fats = 0;
-    var calories = 0;
+ 
     var foodItems = @json($foodItems);
     var mealItems = @json($mealItems);
    
@@ -319,7 +316,10 @@ const generateCalendar = (month, year) => {
     var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
     infoHtml += '<p><span id="proteins">Proteins: '+data.proteins+'</span><br>';
     infoHtml += '<span id="carbs">Carbs: '+data.carbs+'</span><br>';
+    infoHtml += '<span id="sugars">Sugars: '+data.sugars+'</span><br>';
+    infoHtml += '<span id="fibers">Fibers: '+data.fibers+'</span><br>';
     infoHtml += '<span id="fats">Fats: '+data.fats+'</span><br>';
+    infoHtml += '<span id="saturated_fats">Saturated fats: '+data.saturated_fats+'</span><br>';
     infoHtml += '<span id="calories">Calories: '+data.calories+'</span></p></div></div>';
     totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
 } else {
@@ -455,7 +455,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateTotalInfo() {
         var proteins = 0;
         var carbs = 0;
+        var sugars = 0;
+        var fibers = 0;
         var fats = 0;
+        var saturated_fats = 0;
         var calories = 0;
         var foodItems = @json($foodItems);
         var mealItems = @json($mealItems);
@@ -477,7 +480,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (foodItem) {
                     proteins += foodItem.proteins * kolicina / 100;
                     carbs += foodItem.carbs * kolicina / 100;
+                    sugars += foodItem.sugars * kolicina / 100;
+                    fibers += foodItem.fibers * kolicina / 100;
                     fats += foodItem.fats * kolicina / 100;
+                    saturated_fats += foodItem['saturated-fats'] * kolicina / 100;
                     calories += foodItem.calories * kolicina / 100;
                 }
             }
@@ -500,7 +506,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (mealItem) {
                     proteins += mealItem.proteins * porcija;
                     carbs += mealItem.carbs * porcija;
+                    sugars += mealItem.sugars * porcija;
+                    fibers += mealItem.fibers * porcija;
                     fats += mealItem.fats * porcija;
+                    saturated_fats += mealItem['saturated-fats'] * porcija;
                     calories += mealItem.calories * porcija;
                 }
             }
@@ -509,7 +518,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var infoHtml = '<div class="row"><div class="col"><h4>Total</h4>';
         infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(2) + '</span><br>';
         infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(2) + '</span><br>';
+        infoHtml += '<span id="sugars">Sugars: ' + sugars.toFixed(2) + '</span><br>';
+        infoHtml += '<span id="fibers">Fibers: ' + fibers.toFixed(2) + '</span><br>';
         infoHtml += '<span id="fats">Fats: ' + fats.toFixed(2) + '</span><br>';
+        infoHtml += '<span id="saturated_fats">Saturated_fats: ' + saturated_fats.toFixed(2) + '</span><br>';
         infoHtml += '<span id="calories">Calories: ' + calories.toFixed(2) + '</span></p></div></div>';
         
         totalInfoDiv.innerHTML = infoHtml;
