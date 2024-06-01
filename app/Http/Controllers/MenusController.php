@@ -27,14 +27,17 @@ class MenusController extends Controller
     public function checkMenu(Request $request)
 {
     $date = $request->input('date');
-    
+    $user_id = auth()->user()->id;
     // Provjerite postoji li meni za zadani datum
-    $menuExists = Menu::where('date', $date)->exists();
+    $menuExists = Menu::where('date', $date)
+                  ->where('user_id', $userId)
+                  ->exists();
+
     
     // Dohvatite sastojke menija ako meni postoji
     $ingredients = [];
     if ($menuExists) {
-        $menu = Menu::where('date', $date)->first();
+        $menu = Menu::where('date', $date)->where('user_id', $userId)->first();
         $ingredients = explode(',', $menu->ingredients);
         $id = $menu->id;
         $proteins = $menu->proteins;
