@@ -45,7 +45,7 @@
 @endforeach
 </p>
 <h5><b>Total:</b></h5>
-<p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs)}}<br>Sugars:{{round($obrok->sugars)}}<br>Fibers:{{round($obrok->fibers)}}<br>Fats:{{round($obrok->fats)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'))}}<br>Calories:{{round($obrok->calories)}}</p>
+<p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs,1)}}<br>Sugars:{{round($obrok->sugars,1)}}<br>Fibers:{{round($obrok->fibers,1)}}<br>Fats:{{round($obrok->fats,1)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'),1)}}<br>Calories:{{round($obrok->calories,1)}}</p>
 
       </div>
     </div>
@@ -170,7 +170,7 @@
                 </div>
             </form>
             <h5>Total:</h5>
-            <p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs)}}<br>Sugars:{{round($obrok->sugars)}}<br>Fibers:{{round($obrok->fibers)}}<br>Fats:{{round($obrok->fats)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'))}}<br>Calories:{{round($obrok->calories)}}</p>
+            <p>Proteins: {{round($obrok->proteins,1)}}<br>Carbs:{{round($obrok->carbs,1)}}<br>Sugars:{{round($obrok->sugars,1)}}<br>Fibers:{{round($obrok->fibers,1)}}<br>Fats:{{round($obrok->fats,1)}}<br>Saturated fats:{{round($obrok->getAttribute('saturated-fats'),1)}}<br>Calories:{{round($obrok->calories,1)}}</p>
 
       </div>
 
