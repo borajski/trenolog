@@ -226,7 +226,6 @@
 @endsection
 @section('js_after')
 <script src="{{ asset('js/back/pretraga-ajax.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 function newFood() {
     if (document.getElementById('noviUnos').style.display == "none") {
@@ -314,10 +313,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 xhr.send();
             });
         });
-
-        function editFood(id) {
-            // Implement edit functionality here
-            console.log("Edit food with id:", id);
-        }
 </script>
 @endsection
