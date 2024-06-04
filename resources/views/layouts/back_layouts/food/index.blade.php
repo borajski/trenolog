@@ -155,8 +155,8 @@
                         <div class="form-group">
                             <label for="fats"><b>Fats:</b></label>
                             <input type="text" class="form-control" name="fats" id="fats">
-                            <label for="saturated-fats">Saturated fats:</label>
-                            <input type="text" class="form-control" name="saturated-fats" id="saturated-fats">
+                            <label for="saturated_fats">Saturated fats:</label>
+                            <input type="text" class="form-control" name="saturated_fats" id="saturated-fats">
                         </div>
                         <div class="form-group">
                             <label for="calories"><b>Calories:</b></label>
