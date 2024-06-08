@@ -32,10 +32,10 @@
             $fats[] = $menu->fats;
             $masti += $menu->fats;
         }
-        $kalorije = $kalorije/8;
-        $masti = $masti/8;
-        $proteini = $proteini/8;
-        $ugh = $ugh/8;
+        $kalorije = round($kalorije/8,1);
+        $masti = round($masti/8,1);
+        $proteini = round($proteini/8,1);
+        $ugh = round($ugh/8,1);
     @endphp
 <div class="container">
     <div class="row">
@@ -134,6 +134,14 @@
 <div class="col-md-6">
 <canvas id="ratiosData" class="p-4 m-4"></canvas>
 </div>
+<div class="col-md-6">
+    <p class="pt-5"><b>Average intake:</b></p>
+    <p>Proteins: {{$proteini}}<br>
+    Carbs: {{$ugh}}<br>
+    Fats: {{$masti}}<br>
+    <b>Calories: {{$kalorije}}</b>
+    </p>
+    </div>
 </div><!-- kraj row -->
 
 </div> <!-- kraj container -->
