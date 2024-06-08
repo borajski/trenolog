@@ -28,14 +28,26 @@ class MenusController extends Controller
 {
     $date = $request->input('date');
     $user_id = auth()->user()->id;
-    // Provjerite postoji li meni za zadani datum
-    $menuExists = Menu::where('date', $date)->where('user_id',$user_id)->exists();
 
-    
-    // Dohvatite sastojke menija ako meni postoji
+    // Inicijalizirajte varijable
+    $menuExists = false;
     $ingredients = [];
+    $id = null;
+    $proteins = 0;
+    $carbs = 0;
+    $sugars = 0;
+    $fibers = 0;
+    $fats = 0;
+    $saturated_fats = 0;
+    $calories = 0;
+    $meals = [];
+
+    // Provjerite postoji li meni za zadani datum
+    $menuExists = Menu::where('date', $date)->where('user_id', $user_id)->exists();
+
+    // Dohvatite sastojke menija ako meni postoji
     if ($menuExists) {
-        $menu = Menu::where('date', $date)->where('user_id',$user_id)->first();
+        $menu = Menu::where('date', $date)->where('user_id', $user_id)->first();
         $ingredients = explode(',', $menu->ingredients);
         $id = $menu->id;
         $proteins = $menu->proteins;
@@ -46,12 +58,21 @@ class MenusController extends Controller
         $saturated_fats = $menu->getAttribute('saturated-fats');
         $calories = $menu->calories;
         $meals = explode(',', $menu->meals);
-
     }
-    
-    return response()->json(['exists' => $menuExists, 'ingredients' => $ingredients, 'id' => $id,
-'proteins'=>$proteins,'carbs'=>$carbs,'sugars'=>$sugars,'fibers'=>$fibers,'fats'=>$fats,
-'saturated_fats'=>$saturated_fats,'calories'=>$calories,'meals'=>$meals]);
+
+    return response()->json([
+        'exists' => $menuExists,
+        'ingredients' => $ingredients,
+        'id' => $id,
+        'proteins' => $proteins,
+        'carbs' => $carbs,
+        'sugars' => $sugars,
+        'fibers' => $fibers,
+        'fats' => $fats,
+        'saturated_fats' => $saturated_fats,
+        'calories' => $calories,
+        'meals' => $meals
+    ]);
 }
 
     /*

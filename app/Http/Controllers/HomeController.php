@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Food;
+use App\Models\Meal;
+use App\Models\Menu;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user_id = auth()->user()->id;
+        $query = (new Menu())->newQuery();
+
+        $dnevni_unos = $query->where('user_id',$user_id)
+                             ->whereDate('created_at', '>=', now()->subDays(7))
+                             ->get();
+        $foodItems = Food::all();
+        $mealItems = Meal::all();
+        return view('home')->with(['foodItems' => $foodItems, 'mealItems' => $mealItems, 'menus' => $dnevni_unos]);
+ 
     }
 }
