@@ -32,10 +32,10 @@
             $fats[] = $menu->fats;
             $masti += $menu->fats;
         }
-        $kalorije = round($kalorije/8,1);
-        $masti = round($masti/8,1);
-        $proteini = round($proteini/8,1);
-        $ugh = round($ugh/8,1);
+        $kalorije = round($kalorije/7,1);
+        $masti = round($masti/7,1);
+        $proteini = round($proteini/7,1);
+        $ugh = round($ugh/7,1);
     @endphp
 <div class="container">
     <div class="row">
