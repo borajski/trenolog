@@ -40,4 +40,25 @@ class HomeController extends Controller
     return view('home')->with(['foodItems' => $foodItems, 'mealItems' => $mealItems, 'menus' => $dnevni_unos]);
 }
 
+public function show(Request $request)
+{
+    $startDate = $request->input('startDate');
+    $endDate = $request->input('endDate');
+
+    $user_id = auth()->user()->id;
+    $query = (new Menu())->newQuery();
+
+    $dnevni_unos = $query->where('user_id', $user_id)
+                         ->whereDate('created_at', '>=', $startDate)
+                         ->whereDate('created_at', '<=', $endDate)
+                         ->get();
+    
+    $foodItems = Food::all();
+    $mealItems = Meal::all();
+
+    return view('home')->with(['foodItems' => $foodItems, 'mealItems' => $mealItems, 'menus' => $dnevni_unos]);
+
+    
+}
+
 }

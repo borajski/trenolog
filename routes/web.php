@@ -5,6 +5,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\FoodsController;
 use App\Http\Controllers\MealsController;
 use App\Http\Controllers\MenusController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,8 @@ Route::resource('menus', MenusController::class);
 Route::get('/menus', [MenusController::class, 'index']);
 Route::post('/menus/{id}', [MenusController::class, 'update'])->name('menu.update');
 Route::post('/check-menu', [MenusController::class, 'checkMenu']);
+Route::post('/', [HomeController::class, 'show']);
+
 
 Route::get('/exercises', function () {
     return view('layouts.back_layouts.exercises.index');

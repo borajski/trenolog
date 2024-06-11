@@ -20,8 +20,10 @@
         $proteini = 0;
         $ugh = 0;
         $masti = 0;
+        $i = 0;
 
         foreach ($menus as $menu) {
+            $i++;
             $dates[] = $menu->created_at->format('d-m-Y');
             $calories[] = $menu->calories;
             $kalorije += $menu->calories;
@@ -32,10 +34,10 @@
             $fats[] = $menu->fats;
             $masti += $menu->fats;
         }
-        $kalorije = round($kalorije/7,1);
-        $masti = round($masti/7,1);
-        $proteini = round($proteini/7,1);
-        $ugh = round($ugh/7,1);
+        $kalorije = round($kalorije/$i,1);
+        $masti = round($masti/$i,1);
+        $proteini = round($proteini/$i,1);
+        $ugh = round($ugh/$i,1);
     @endphp
 <div class="container">
     <div class="row">
@@ -115,6 +117,34 @@
     </div> <!-- kraj row -->
     <div class="row">
         <h4><b>Macros intake last 7 days</b></h4>
+        <p><i>or<br>more statistics...</i></p>
+        <div class="date-picker">
+        <form action="/" method="POST">
+        @csrf 
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input type="date" class="form-control" name="startDate" id="startDate">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="endDate">End Date</label>
+          <input type="date" class="form-control"  name="endDate" id="endDate">
+        </div> 
+        <div class="col-md-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>       
+            </div>     
+      </div>
+    
+    </div>
+    
+   </form>
+
+</div>
+
+
 <div class="col-md-6">
 <canvas id="energyData"></canvas>
 </div>
@@ -337,13 +367,6 @@ function initializePage() {
     const dailyMenuDiv = document.querySelector('.daily-menu');
     let mm = today.getMonth() + 1; // Months start at 0!
     let dd = today.getDate();
-    var masti = <?php echo json_encode($masti); ?>;
-    var ugh = <?php echo json_encode($ugh); ?>;
-    var proteini = <?php echo json_encode($proteini); ?>;
-    var kalorije = <?php echo json_encode($kalorije); ?>;
-
-    
-
     const formattedToday = dd + '/' + mm + '/' + yyyy;  
 
     if (dailyMenuDiv) {
@@ -476,18 +499,30 @@ function initializePage() {
             infoHtml += '<b><span id="calories">Calories: ' + toFixedOrZero(data.calories, 1) + '</span></b></p></div></div>';
             totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
             chartMacros(data.proteins, data.fats, data.carbs, data.calories);
-            energyData();
+          /*  energyData();
             proteinData();
             carbsData();
             fatsData();
-            ratiosData(proteini, masti, ugh, kalorije);
+            ratiosData(proteini, masti, ugh, kalorije); */
         } else {
             form.action = '{{ route('menus.store') }}';
         }
     })
     .catch(error => console.error('Error:', error)); 
 }
+function consumeData () {
+    var masti = <?php echo json_encode($masti); ?>;
+    var ugh = <?php echo json_encode($ugh); ?>;
+    var proteini = <?php echo json_encode($proteini); ?>;
+    var kalorije = <?php echo json_encode($kalorije); ?>;
+            energyData();
+            proteinData();
+            carbsData();
+            fatsData();
+            ratiosData(proteini, masti, ugh, kalorije); 
+}
 
+document.addEventListener('DOMContentLoaded', consumeData);
 document.addEventListener('DOMContentLoaded', initializePage);
 
 </script>
