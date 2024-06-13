@@ -15,10 +15,17 @@ class FoodsController extends Controller
      */
     public function index()
     {
-        $query = (new Food())->newQuery();
-        $namirnice = $query->orderBy('name')->paginate(10);
-        return view('layouts.back_layouts.food.index')->with('namirnice', $namirnice); 
+        $user_id = auth()->user()->id;
+    
+        // Sve namirnice osim onih koje pripadaju trenutnom korisniku
+        $namirnice = Food::where('user_id', '!=', $user_id)->where('status','public')->orderBy('name')->paginate(10);
+    
+        // Namirnice koje pripadaju trenutnom korisniku
+        $moje_namirnice = Food::where('user_id', $user_id)->orderBy('name')->paginate(10);
+    
+        return view('layouts.back_layouts.food.index', compact('namirnice', 'moje_namirnice'));
     }
+    
     
 
     /**
@@ -79,6 +86,27 @@ class FoodsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function copyFood(Request $request)
+{
+    $user_id = auth()->user()->id;
+    $namirnica_id = $request->input('namirnica_id');
+
+    // Pronađi originalnu namirnicu
+    $originalFood = Food::find($namirnica_id);
+
+    if ($originalFood) {
+        // Kreiraj kopiju namirnice za trenutnog korisnika
+        $newFood = $originalFood->replicate();
+        $newFood->user_id = $user_id;
+        $newFood->status = $originalFood->user_id;
+        $newFood->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    return response()->json(['success' => false]);
+}
+
     public function getFood($id)
 {
     $food = Food::find($id);
@@ -92,6 +120,13 @@ public function search(Request $request)
 {
     $query = $request->get('query');
     $foods = Food::where('name', 'LIKE', "%{$query}%")->get();
+    return response()->json($foods);
+}
+public function mysearch(Request $request)
+{
+    $query = $request->get('query');
+    $user_id = auth()->user()->id;
+    $foods = Food::where('name', 'LIKE', "%{$query}%")->where('user_id',$user_id)->get();
     return response()->json($foods);
 }
     public function update(Request $request, $id)

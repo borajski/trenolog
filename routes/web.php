@@ -40,6 +40,9 @@ Route::post('/foods/{id}', [FoodsController::class, 'update'])->name('food.updat
 Route::get('del_food/{id}',[FoodsController::class, 'destroy']);
 Route::get('/food/{id}', [FoodsController::class, 'getFood']);
 Route::get('/search-food', [FoodsController::class, 'search'])->name('search.food');
+Route::get('/search-myfood', [FoodsController::class, 'mysearch'])->name('search.myfood');
+Route::post('/copy-food', [FoodsController::class, 'copyFood'])->name('copyFood');
+
 
 
 // Meal routes //

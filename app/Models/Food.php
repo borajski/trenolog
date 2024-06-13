@@ -87,8 +87,7 @@ class Food extends Model
             'updated_at'      =>  Carbon::now()
         ]);
     }
-
-    public function user()
+public function user()
     {
         return $this->belongsTo(User::class);
     }

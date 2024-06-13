@@ -28,12 +28,12 @@ class HomeController extends Controller
 {
     $user_id = auth()->user()->id;
     $query = (new Menu())->newQuery();
-
-    $dnevni_unos = $query->where('user_id', $user_id)
+  
+        $dnevni_unos = $query->where('user_id', $user_id)
                          ->whereDate('created_at', '>=', now()->subDays(7))
                          ->whereDate('created_at', '<', now())
                          ->get();
-    
+        
     $foodItems = Food::all();
     $mealItems = Meal::all();
     
