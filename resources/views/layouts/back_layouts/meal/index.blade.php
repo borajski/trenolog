@@ -18,9 +18,9 @@
                             <path
                                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                         </svg></a>
-                </span>               
+                </span> <span style="font-size:0.8rem;">&nbsp;&nbsp;Add new meal</span>              
             </h4>
-                    <!-- Div za unos nove namirnice-->
+                    <!-- Div za unos novog obroka-->
         <div id="noviUnos" style="display:none;">
             <!-- form start -->
             <form enctype="multipart/form-data" action="{{ route('meals.store') }}" method="POST">
@@ -89,11 +89,36 @@
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
             </form>
-        </div>
+        </div> <!-- kraj diva za novi obrok -->
             </div>
             </div>
-            <!--ispis obroka -->
+            <!--ispis mojih obroka -->
             <div class="row">
+            @if (count($moji_obroci) > 0)
+               @foreach($moji_obroci as $obrok)
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header text-center">
+                            {{ $obrok->name }}
+                        </div>
+                        <a href="{{ route('meals.show', $obrok->id)}}">
+                        <img src="{{ asset($obrok->photo)}}" class="card-img-top" alt="{{ $obrok->name }}">
+</a>
+                        <div class="card-body">
+                            <p class="card-text text-center">{{ $obrok->sort }}</p>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            @else
+             <h4>You have no meals yet</h4>
+             @endif
+        </div>
+                    <!--ispis javnih obroka -->
+                    <div class="row">
+                    <h4>Public meals</h4>
+                    @if (count($obroci) > 0)
             @foreach($obroci as $obrok)
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
@@ -110,6 +135,9 @@
                     </div>
                 </div>
             @endforeach
+            @else
+            <h4>There is no meals created by other users</h4>
+            @endif
         </div>
 </div>
 

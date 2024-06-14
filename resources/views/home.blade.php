@@ -15,6 +15,10 @@
 @php
         $dates = [];
         $calories = [];
+        $proteins = [];
+        $carbs = [];
+        $fats = [];
+      
 
         $kalorije = 0;
         $proteini = 0;
@@ -34,10 +38,12 @@
             $fats[] = $menu->fats;
             $masti += $menu->fats;
         }
+        if ($i > 0) {
         $kalorije = round($kalorije/$i,1);
         $masti = round($masti/$i,1);
         $proteini = round($proteini/$i,1);
         $ugh = round($ugh/$i,1);
+        }
     @endphp
 <div class="container">
     <div class="row">

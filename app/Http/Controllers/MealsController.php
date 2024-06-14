@@ -17,8 +17,20 @@ class MealsController extends Controller
     public function index()
     {
         $query = (new Meal())->newQuery();
+        $user_id = auth()->user()->id;
+
         $obroci = $query->orderBy('name')->get();
-        return view('layouts.back_layouts.meal.index')->with('obroci',$obroci);
+         // Svi obroci osim onih koje pripadaju trenutnom korisniku
+         $obroci = Meal::where('user_id', '!=', $user_id)->where('status','public')->orderBy('name')->paginate(10);
+        // Obroci koji pripadaju trenutnom korisniku
+        $moji_obroci = Meal::where('user_id', $user_id)->orderBy('name')->paginate(10);
+
+       return view('layouts.back_layouts.meal.index', compact('obroci', 'moji_obroci'));
+
+        
+    
+       
+        
     }
 
     /**
@@ -111,7 +123,26 @@ class MealsController extends Controller
            return redirect()->back()->with(['error' => 'Uf! Došlo je do pogreške u spremanju podataka!']);
         }
     }
+    public function copyMeal(Request $request)
+{
+    $user_id = auth()->user()->id;
+    $obrok_id = $request->input('obrok_id');
 
+    // Pronađi originalnu namirnicu
+    $originalMeal = Meal::find($obrok_id);
+
+    if ($originalMeal) {
+        // Kreiraj kopiju obroka za trenutnog korisnika
+        $newMeal = $originalMeal->replicate();
+        $newMeal->user_id = $user_id;
+        $newMeal->status = $originalMeal->user_id;
+        $newMeal->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    return response()->json(['success' => false]);
+}
     /**
      * Remove the specified resource from storage.
      *
