@@ -1,7 +1,7 @@
 document.querySelector('.add-row').addEventListener('click', function(event) {
     event.preventDefault();
 
-    const food = document.querySelector('#food-search').value;
+    const food = document.querySelector('#myfood-search').value;
     const quantity = document.querySelector('input[name="kolicina[]"]').value;
     const identifikacija = document.querySelector('#food-id').value;
 
@@ -28,7 +28,7 @@ document.querySelector('.add-row').addEventListener('click', function(event) {
 
         document.querySelector('#new-rows').appendChild(newRow);
 
-        document.querySelector('#food-search').value = '';
+        document.querySelector('#myfood-search').value = '';
         document.querySelector('input[name="kolicina[]"]').value = '';
         document.querySelector('#food-id').value = '';
         newRow.querySelector('.remove-row').addEventListener('click', function(event) {
