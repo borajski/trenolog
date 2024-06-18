@@ -137,7 +137,6 @@ class MealsController extends Controller
         $newMeal->user_id = $user_id;
         $newMeal->status = $originalMeal->user_id;
         $newMeal->save();
-
         return response()->json(['success' => true]);
     }
 

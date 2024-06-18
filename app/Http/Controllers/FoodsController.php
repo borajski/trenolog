@@ -100,7 +100,6 @@ class FoodsController extends Controller
         $newFood->user_id = $user_id;
         $newFood->status = $originalFood->user_id;
         $newFood->save();
-
         return response()->json(['success' => true]);
     }
 
