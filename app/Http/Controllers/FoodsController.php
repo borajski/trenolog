@@ -151,16 +151,11 @@ public function mysearch(Request $request)
         $endDate = $request->input('endDate');
     
         $user_id = auth()->user()->id;
-        $query = (new Menu())->newQuery();
-    
-        $dnevni_unos = $query->where('user_id', $user_id)
-                             ->whereDate('created_at', '>=', $startDate)
-                             ->whereDate('created_at', '<=', $endDate)
-                             ->get();
-
+       
         // Fetch menus for the user in the given period
         $menus = Menu::where('user_id', $user_id)
-        ->whereBetween('created_at', [$startDate, $endDate])
+        ->whereDate('created_at', '>=', $startDate)
+        ->whereDate('created_at', '<=', $endDate)
         ->get();
 
         // Initialize an empty array to hold the food consumption data
