@@ -1,4 +1,5 @@
 /* search ajax public database*/
+
 document.addEventListener('DOMContentLoaded', function() {
     var foodSearch = document.getElementById('food-search');
     var searchResults = document.querySelector('.search-results');
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             searchResults.innerHTML = '';
         }
-    });
+    }); 
 
     // Zatvori rezultate pretrage klikom bilo gdje izvan input polja
     document.addEventListener('click', function(event) {
