@@ -42,6 +42,8 @@ Route::get('/food/{id}', [FoodsController::class, 'getFood']);
 Route::get('/search-food', [FoodsController::class, 'search'])->name('search.food');
 Route::get('/search-myfood', [FoodsController::class, 'mysearch'])->name('search.myfood');
 Route::post('/copy-food', [FoodsController::class, 'copyFood'])->name('copyFood');
+Route::get('/consumption', [FoodsController::class, 'consumption']);
+Route::post('/report', [FoodsController::class, 'getFoodConsumptionReport'])->name('report');
 
 
 

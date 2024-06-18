@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Food;
+use App\Models\Menu;
 
 
 class FoodsController extends Controller
@@ -140,7 +141,69 @@ public function mysearch(Request $request)
        return redirect()->back()->with(['error' => 'Oops! Some errors occured!']);
     }
     }
+    public function consumption()
+    {
+        return view('layouts.back_layouts.food.consumption');
+    }
+    public function getFoodConsumptionReport(Request $request)
+    {
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+    
+        $user_id = auth()->user()->id;
+        $query = (new Menu())->newQuery();
+    
+        $dnevni_unos = $query->where('user_id', $user_id)
+                             ->whereDate('created_at', '>=', $startDate)
+                             ->whereDate('created_at', '<=', $endDate)
+                             ->get();
 
+        // Fetch menus for the user in the given period
+        $menus = Menu::where('user_id', $user_id)
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->get();
+
+        // Initialize an empty array to hold the food consumption data
+        $foodConsumption = [];
+
+        // Loop through each menu entry
+        foreach ($menus as $menu) {
+            // Split the menu entry into individual items
+            $ingredients = explode(',', $menu->ingredients);
+            foreach ($ingredients as $item) {
+                // Split each item into id and quantity
+                list($foodId, $quantity) = explode('-', $item);
+                $foodId = (int) $foodId;
+                $quantity = (float) $quantity;
+
+                // Accumulate the quantity for each food item
+                if (isset($foodConsumption[$foodId])) {
+                    $foodConsumption[$foodId] += $quantity;
+                } else {
+                    $foodConsumption[$foodId] = $quantity;
+                }
+            }
+        }
+
+        // Optionally, you can fetch the names of the food items
+        $foodDetails = Food::whereIn('id', array_keys($foodConsumption))->get();
+
+        $report = [];
+        foreach ($foodDetails as $food) {
+            $report[] = [
+                'food_id' => $food->id,
+                'food_name' => $food->name,
+                'quantity' => $foodConsumption[$food->id]
+            ];
+        }
+         // Sort the report by quantity in descending order
+         usort($report, function($a, $b) {
+            return $b['quantity'] <=> $a['quantity'];
+        });
+
+        //return response()->json($report);
+        return view('layouts.back_layouts.food.consumption', compact('report'));
+    }
     /**
      * Remove the specified resource from storage.
      *
