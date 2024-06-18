@@ -69,7 +69,8 @@ class MealsController extends Controller
     public function search(Request $request)
 {
     $query = $request->get('query');
-    $meals = Meal::where('name', 'LIKE', "%{$query}%")->get();
+    $user_id = auth()->user()->id;
+    $meals = Meal::where('name', 'LIKE', "%{$query}%")->where('user_id', $user_id)->get();
     return response()->json($meals);
 }
     

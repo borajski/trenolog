@@ -67,8 +67,8 @@
                     <div class="row mb-3 align-items-center">
                         <div class="col-md-6">
                             <label for="ingredients"><b>Single ingredients:</b></label>
-                            <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
-                            <div class="search-results"></div>
+                            <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]">
+                            <div class="search-myresults"></div>
                         </div>
                         <div class="col-md-4">
                             <input type="number" class="form-control" placeholder="Quantity (g)" name="kolicina[]">

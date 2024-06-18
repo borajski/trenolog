@@ -113,8 +113,8 @@
                    
             <div class="row mb-3 align-items-center">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Food" id="food-search" name="namirnica[]">
-                    <div class="search-results"></div>
+                    <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]">
+                    <div class="search-myresults"></div>
                     <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"> 
                 </div>
                 <div class="col-md-4">
