@@ -231,8 +231,12 @@ public function mysearch(Request $request)
             return $b['quantity'] <=> $a['quantity'];
         });
 
-        //return response()->json($report);
-        return view('layouts.back_layouts.food.consumption', compact('report'));
+        $groupedReport = collect($report)->groupBy('food_sort');
+
+        return view('layouts.back_layouts.food.consumption', compact('groupedReport'));
+        
+
+       // return view('layouts.back_layouts.food.consumption', compact('report'));
     }
     /**
      * Remove the specified resource from storage.
