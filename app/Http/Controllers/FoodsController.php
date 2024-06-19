@@ -231,7 +231,11 @@ public function mysearch(Request $request)
             return $b['quantity'] <=> $a['quantity'];
         });
 
-        $groupedReport = collect($report)->groupBy('food_sort');
+        $groupedReport = [];
+
+        foreach ($report as $item) {
+            $groupedReport[$item['food_sort']][] = $item;
+        }
 
         return view('layouts.back_layouts.food.consumption', compact('groupedReport'));
         
