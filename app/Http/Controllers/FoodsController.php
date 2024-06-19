@@ -231,16 +231,7 @@ public function mysearch(Request $request)
             return $b['quantity'] <=> $a['quantity'];
         });
 
-        $groupedReport = [];
-
-        foreach ($report as $item) {
-            $groupedReport[$item['food_sort']][] = $item;
-        }
-
-        return view('layouts.back_layouts.food.consumption', compact('groupedReport'));
-        
-
-       // return view('layouts.back_layouts.food.consumption', compact('report'));
+        return view('layouts.back_layouts.food.consumption', compact('report'));
     }
     /**
      * Remove the specified resource from storage.
