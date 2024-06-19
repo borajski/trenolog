@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Food;
 use App\Models\Menu;
+use App\Models\Meal;
 
 
 class FoodsController extends Controller
@@ -165,6 +166,7 @@ public function mysearch(Request $request)
         foreach ($menus as $menu) {
             // Split the menu entry into individual items
             $ingredients = explode(',', $menu->ingredients);
+            $meals = explode(',', $menu->meals);
             foreach ($ingredients as $item) {
                 // Split each item into id and quantity
                 list($foodId, $quantity) = explode('-', $item);
@@ -178,7 +180,39 @@ public function mysearch(Request $request)
                     $foodConsumption[$foodId] = $quantity;
                 }
             }
+           // Loop through each meal entry
+            foreach ($meals as $obrok) {
+                // Split each obrok into id and quantity
+                if ($obrok != '-') {
+                
+                    list($mealId, $porcije) = explode('-', $obrok);
+                    $mealId = (int) $mealId;
+                    $porcije = (float) $porcije;
+               
+
+                $obrok_detalji = Meal::find($mealId);
+            
+                $ingredients = explode(',', $obrok_detalji->ingredients);
+                foreach ($ingredients as $item) {
+                    // Split each item into id and quantity
+                    list($foodId, $quantity) = explode('-', $item);
+                    $foodId = (int) $foodId;
+                    $quantity = (float) $quantity*$porcije;
+                    $quantity = number_format($quantity, 2, '.', '');
+
+                // Accumulate the quantity for each food item
+                if (isset($foodConsumption[$foodId])) {
+                    $foodConsumption[$foodId] += $quantity;
+                } else {
+                    $foodConsumption[$foodId] = $quantity;
+                }
+            }
         }
+    }
+        }
+        
+       
+
 
         // Optionally, you can fetch the names of the food items
         $foodDetails = Food::whereIn('id', array_keys($foodConsumption))->get();
