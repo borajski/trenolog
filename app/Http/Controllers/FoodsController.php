@@ -222,6 +222,7 @@ public function mysearch(Request $request)
             $report[] = [
                 'food_id' => $food->id,
                 'food_name' => $food->name,
+                'food_sort' => $food->sort,
                 'quantity' => $foodConsumption[$food->id]
             ];
         }

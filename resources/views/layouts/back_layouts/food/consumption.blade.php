@@ -36,6 +36,7 @@
                 <thead>
                     <tr>
                         <th>Food Name</th>
+                        <th>Sort</th>
                         <th>Quantity</th>
                     </tr>
                 </thead>
@@ -43,6 +44,7 @@
                     @foreach($report as $item)
                     <tr>
                         <td>{{ $item['food_name'] }}</td>
+                        <td>{{ $item['food_sort'] }}</td>
                         <td>{{ $item['quantity'] }}</td>
                     </tr>
                     @endforeach
