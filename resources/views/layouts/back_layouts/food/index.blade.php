@@ -226,7 +226,7 @@
                     </table>
                 </div>
                 <div class="pt-2">
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center pagination pagination-sm">
                         {{$moje_namirnice->links()}}
                     </div>
                 </div>
@@ -307,7 +307,7 @@
             </tbody>
             </table>
             <div class="pt-2">
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center pagination pagination-sm">
                     {{$namirnice->links()}}
                 </div>
             </div>
