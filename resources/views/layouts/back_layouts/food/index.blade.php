@@ -307,7 +307,7 @@
             </tbody>
             </table>
             <div class="pt-2">
-                <div class="d-flex justify-content-center pagination pagination-sm">
+                <div class="d-flex justify-content-center">
                     {{$namirnice->links()}}
                 </div>
             </div>

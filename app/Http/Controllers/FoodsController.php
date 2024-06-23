@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Models\Food;
 use App\Models\Menu;
 use App\Models\Meal;
+
 
 
 class FoodsController extends Controller
@@ -230,8 +232,10 @@ public function mysearch(Request $request)
          usort($report, function($a, $b) {
             return $b['quantity'] <=> $a['quantity'];
         });
+        $groupedReport = collect($report)->groupBy('food_sort');
 
-        return view('layouts.back_layouts.food.consumption', compact('report'));
+        //return view('layouts.back_layouts.food.consumption', compact('report'));
+        return view('layouts.back_layouts.food.consumption', compact('groupedReport'));
     }
     /**
      * Remove the specified resource from storage.

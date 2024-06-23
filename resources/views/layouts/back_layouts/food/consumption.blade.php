@@ -28,7 +28,7 @@
         </form>
     </div>
 
-    @if(isset($report))
+    @if(isset($groupedReport))
     <div class="row mt-4">
         <div class="col-md-12">
             <h4>Report Results</h4>
@@ -41,15 +41,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($report as $item)
-                    <tr>
-                        <td>{{ $item['food_name'] }}</td>
-                        <td>{{ $item['food_sort'] }}</td>
-                        <td>{{ $item['quantity'] }}</td>
-                    </tr>
+                    @foreach($groupedReport as $foodSort => $items)
+                        @foreach($items as $item)
+                        <tr> 
+                            <td>{{ $item['food_name'] }}</td>
+                            <td>{{ $foodSort }}</td> <!-- Umesto $item['food_sort'] koristimo ključ grupe $foodSort -->
+                            <td>{{ $item['quantity'] }}</td>
+                        </tr>
+                        @endforeach
                     @endforeach
                 </tbody>
             </table>
+            
         </div>
     </div>
     @endif
