@@ -24,7 +24,6 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
@@ -48,6 +47,7 @@
                                         {{ __('Remember Me') }}
                                     </label>
                                 </div>
+                                
                             </div>
                         </div>
 
@@ -62,6 +62,11 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
+                                <p>
+                                <a class="btn btn-link" href="{{ route('register') }}">
+                                    {{ __('Not registered?') }}
+                                </a>
+                            </p>
                             </div>
                         </div>
                     </form>

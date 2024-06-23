@@ -16,7 +16,7 @@ document.querySelector('.add-mealrow').addEventListener('click', function(event)
                    
             </div>
             <div class="col-md-4">
-                <input type="number" class="form-control" name="porcija[]" value="${servings}" >
+                <input type="number" step="0.0001" class="form-control" name="porcija[]" value="${servings}" >
             </div>
             <div class="col-md-2">
                 <a role="button" class="remove-mealrow" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">

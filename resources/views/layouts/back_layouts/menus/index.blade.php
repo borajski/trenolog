@@ -300,7 +300,7 @@ const generateCalendar = (month, year) => {
             rowHtml += '<input type="hidden" class="form-control" name="identobrok[]" value="' + mealItem.id + '" >';
             rowHtml += '</div>';
             rowHtml += '<div class="col-md-4">';
-            rowHtml += '<input type="number" class="form-control" name="porcija[]" value="' + porcija + '" >';
+            rowHtml += '<input type="number" step="0.0001" class="form-control" name="porcija[]" value="' + porcija + '" >';
             rowHtml += '</div>';
             rowHtml += '<div class="col-md-2">';
             rowHtml += '<a role="button" class="remove-row-meals" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">';

@@ -481,7 +481,7 @@ function initializePage() {
                     rowHtml += '<input type="hidden" class="form-control" name="identobrok[]" value="' + mealItem.id + '" >';
                     rowHtml += '</div>';
                     rowHtml += '<div class="col-md-4">';
-                    rowHtml += '<input type="number" class="form-control" name="porcija[]" value="' + porcija + '" >';
+                    rowHtml += '<input type="number" step="0.0001" class="form-control" name="porcija[]" value="' + porcija + '" >';
                     rowHtml += '</div>';
                     rowHtml += '<div class="col-md-2">';
                     rowHtml += '<a role="button" class="remove-row-meals" href="#" style="color:red;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">';
@@ -531,6 +531,165 @@ function consumeData () {
 
 document.addEventListener('DOMContentLoaded', consumeData);
 document.addEventListener('DOMContentLoaded', initializePage);
+/* brisanje starog retka namirnice */
+document.addEventListener('DOMContentLoaded', function () {
+    var newRowsDiv = document.getElementById('new-rows');
+    var newRowsMealsDiv = document.getElementById('new-rows-meals');
+
+    // Delegirajte click događaj na newRowsDiv
+    newRowsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row'
+        if (event.target.classList.contains('remove-row') || event.target.closest('.remove-row')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+            }
+        }
+    });
+
+    // Delegirajte click događaj na newRowsMealsDiv
+    newRowsMealsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row-meals'
+        if (event.target.classList.contains('remove-row-meals') || event.target.closest('.remove-row-meals')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+            }
+        }
+    });
+});
+  
+document.addEventListener('DOMContentLoaded', function () {
+    var newRowsDiv = document.getElementById('new-rows');
+    var newRowsMealsDiv = document.getElementById('new-rows-meals');
+    var totalInfoDiv = document.getElementById('total-info');
+    
+    // Funkcija za ažuriranje ukupnih vrijednosti
+    function updateTotalInfo() {
+        var proteins = 0;
+        var carbs = 0;
+        var sugars = 0;
+        var fibers = 0;
+        var fats = 0;
+        var saturated_fats = 0;
+        var calories = 0;
+        var foodItems = @json($foodItems);
+        var mealItems = @json($mealItems);
+        
+        newRowsDiv.querySelectorAll('.row').forEach(function(row) {
+            var namirnicaInput = row.querySelector('input[name="namirnica[]"]');
+            var kolicinaInput = row.querySelector('input[name="kolicina[]"]');
+            var identInput = row.querySelector('input[name="identifikacija[]"]');
+
+            if (namirnicaInput && kolicinaInput) {
+                var namirnica = namirnicaInput.value;
+                var kolicina = parseFloat(kolicinaInput.value) || 0;
+                var namirnica_id = +identInput.value;
+                
+                var foodItem = foodItems.find(function(item) {
+                    return item.id === namirnica_id;
+                });
+                
+                if (foodItem) {
+                    proteins += foodItem.proteins * kolicina / 100;
+                    carbs += foodItem.carbs * kolicina / 100;
+                    sugars += foodItem.sugars * kolicina / 100;
+                    fibers += foodItem.fibers * kolicina / 100;
+                    fats += foodItem.fats * kolicina / 100;
+                    saturated_fats += foodItem['saturated-fats'] * kolicina / 100;
+                    calories += foodItem.calories * kolicina / 100;
+                }
+            }
+        });
+
+        newRowsMealsDiv.querySelectorAll('.row').forEach(function(row) {
+            var obrokInput = row.querySelector('input[name="obrok[]"]');
+            var porcijaInput = row.querySelector('input[name="porcija[]"]');
+            var identobrokInput = row.querySelector('input[name="identobrok[]"]');
+            
+            if (obrokInput && porcijaInput) {
+                var obrok = obrokInput.value;
+                var porcija = parseFloat(porcijaInput.value) || 0;
+                var obrok_id = +identobrokInput.value;
+                
+                var mealItem = mealItems.find(function(item) {
+                    return item.id === obrok_id;
+                });
+                
+                if (mealItem) {
+                    proteins += mealItem.proteins * porcija;
+                    carbs += mealItem.carbs * porcija;
+                    sugars += mealItem.sugars * porcija;
+                    fibers += mealItem.fibers * porcija;
+                    fats += mealItem.fats * porcija;
+                    saturated_fats += mealItem['saturated-fats'] * porcija;
+                    calories += mealItem.calories * porcija;
+                }
+            }
+        });
+        
+        var infoHtml = '<div class="row"><div class="col"><h4><b>Total:</b></h4>';
+        infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="sugars">Sugars: ' + sugars.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="fibers">Fibers: ' + fibers.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="fats">Fats: ' + fats.toFixed(1) + '</span><br>';
+        infoHtml += '<span id="saturated_fats">Saturated_fats: ' + saturated_fats.toFixed(1) + '</span><br>';
+        infoHtml += '<b><span id="calories">Calories: ' + calories.toFixed(1) + '</span></b></p></div></div>';
+        
+        totalInfoDiv.innerHTML = infoHtml;
+    }
+    
+    // Event listener za promjene u input poljima unutar new-rows
+    newRowsDiv.addEventListener('input', function (event) {
+        if (event.target.matches('input[name="namirnica[]"], input[name="kolicina[]"]')) {
+            updateTotalInfo();
+        }
+    });
+
+    // Event listener za promjene u input poljima unutar new-rows-meals
+    newRowsMealsDiv.addEventListener('input', function (event) {
+        if (event.target.matches('input[name="obrok[]"], input[name="porcija[]"]')) {
+            updateTotalInfo();
+        }
+    });
+
+    // Delegirajte click događaj na newRowsDiv
+    newRowsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row'
+        if (event.target.classList.contains('remove-row') || event.target.closest('.remove-row')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+                updateTotalInfo();
+            }
+        }
+    });
+    
+    // Delegirajte click događaj na newRowsMealsDiv
+    newRowsMealsDiv.addEventListener('click', function (event) {
+        // Provjerite je li kliknuti element ili njegov roditelj ima klasu 'remove-row-meal'
+        if (event.target.classList.contains('remove-row-meal') || event.target.closest('.remove-row-meal')) {
+            event.preventDefault(); // Spriječite zadanu radnju
+
+            // Pronađite najbliži roditeljski element s klasom 'row' i uklonite ga
+            var row = event.target.closest('.row');
+            if (row) {
+                row.remove();
+                updateTotalInfo();
+            }
+        }
+    });
+});
 
 </script>
 @endsection
