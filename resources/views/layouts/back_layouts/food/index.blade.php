@@ -226,7 +226,9 @@
                     </table>
                 </div>
                 <div class="pt-2">
-                    {{$moje_namirnice->links()}}
+                    <div class="d-flex justify-content-center">
+                        {{$moje_namirnice->links()}}
+                    </div>
                 </div>
 
                 @else
@@ -305,7 +307,9 @@
             </tbody>
             </table>
             <div class="pt-2">
-                {{$namirnice->links()}}
+                <div class="d-flex justify-content-center">
+                    {{$namirnice->links()}}
+                </div>
             </div>
         </div>
         @else
