@@ -122,6 +122,7 @@ class FoodsController extends Controller
 public function search(Request $request)
 {
     $query = $request->get('query');
+    $user_id = auth()->user()->id;
     $foods = Food::where('name', 'LIKE', "%{$query}%")->where('user_id', '!=', $user_id)->where('status','public')->get();
     return response()->json($foods);
 }
