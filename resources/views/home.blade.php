@@ -23,7 +23,10 @@
         $kalorije = 0;
         $proteini = 0;
         $ugh = 0;
+        $seceri=0;
+        $vlakna=0;
         $masti = 0;
+        $zasicene_masti=0;
         $i = 0;
 
         foreach ($menus as $menu) {
@@ -37,6 +40,12 @@
             $ugh += $menu->carbs;
             $fats[] = $menu->fats;
             $masti += $menu->fats;
+            $sugars[]=$menu->sugars;
+            $seceri+=$menu->sugars;
+            $fibers[]=$menu->fibers;
+            $vlakna+=$menu->fibers;
+            $saturated_fats=$menu->saturated_fats;
+            $zasicene_masti+=$menu->saturated_fats;
         }
         if ($i > 0) {
         $kalorije = round($kalorije/$i,1);
@@ -174,7 +183,10 @@
     <p class="pt-5"><b>Average intake:</b></p>
     <p>Proteins: {{$proteini}}<br>
     Carbs: {{$ugh}}<br>
+    <i>Sugars</i>: {{$seceri}}<br>
+    <i>Fibers</i>: {{$vlakna}}<br>
     Fats: {{$masti}}<br>
+    <i>Saturated fats</i>: {{$zasicene_masti}}<br>
     <b>Calories: {{$kalorije}}</b>
     </p>
     </div>
