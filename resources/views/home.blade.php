@@ -44,14 +44,17 @@
             $seceri+=$menu->sugars;
             $fibers[]=$menu->fibers;
             $vlakna+=$menu->fibers;
-            $saturated_fats=$menu->saturated_fats;
-            $zasicene_masti+=$menu->saturated_fats;
+            $saturated_fats=$menu->getAttribute('saturated-fats');
+            $zasicene_masti+=$menu->getAttribute('saturated-fats');
         }
         if ($i > 0) {
         $kalorije = round($kalorije/$i,1);
         $masti = round($masti/$i,1);
         $proteini = round($proteini/$i,1);
         $ugh = round($ugh/$i,1);
+        $seceri=round($seceri/$i,1);
+        $vlakna=round($vlakna/$i,1);
+        $zasicene_masti=round($zasicene_masti/$i,1);
         }
     @endphp
 <div class="container">
