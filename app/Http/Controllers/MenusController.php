@@ -107,7 +107,8 @@ class MenusController extends Controller
         $stored = $menu->validateRequest($request)->storeData($request); // gives meal id
         if ($stored)
         {
-            return redirect('/menus')->with(['success' => 'Menu created successfully!']);
+            // return redirect('/menus')->with(['success' => 'Menu created successfully!']);
+            return redirect()->back()->with(['success' => 'Menu successfully edited!']);
         }
         else {
            return redirect()->back()->with(['error' => 'Oops! Some errors occured!']);
