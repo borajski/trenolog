@@ -13,6 +13,17 @@
 @endif
 </p>
 @php
+function postotak ($single,$value,$total)
+{
+    if ($total > 0) {
+      $postotak = $single*$value*100/$total;
+      return round($postotak,1);
+    }
+    else {
+      return 0;
+    }
+   
+}
         $dates = [];
         $calories = [];
         $proteins = [];
@@ -184,13 +195,13 @@
 </div>
 <div class="col-md-6">
     <p class="pt-5"><b>Average intake:</b></p>
-    <p>Proteins: {{$proteini}}<br>
-    Carbs: {{$ugh}}<br>
-    <i>Sugars</i>: {{$seceri}}<br>
-    <i>Fibers</i>: {{$vlakna}}<br>
-    Fats: {{$masti}}<br>
-    <i>Saturated fats</i>: {{$zasicene_masti}}<br>
-    <b>Calories: {{$kalorije}}</b>
+    <p>Proteins: {{$proteini}}g ({{postotak($proteini,4,$kalorije)}} %)<br>
+    Carbs: {{$ugh}}g ({{postotak($ugh,4,$kalorije)}} %)<br>
+    <i>Sugars</i>: {{$seceri}}g ({{postotak($seceri,4,$kalorije)}} %)<br>
+    <i>Fibers</i>: {{$vlakna}}g<br>
+    Fats: {{$masti}}g ({{postotak($masti,9,$kalorije)}} %)<br>
+    <i>Saturated fats</i>: {{$zasicene_masti}}g ({{postotak($zasicene_masti,9,$kalorije)}} %)<br>
+    <b>Calories: {{$kalorije}}kcal</b>
     </p>
     </div>
 </div><!-- kraj row -->
@@ -209,6 +220,12 @@
     function toFixedOrZero(value, decimals) {
     var num = parseFloat(value);
     return isNaN(num) ? (0).toFixed(decimals) : num.toFixed(decimals);
+}
+function postotak (single,value,total)
+{
+    var percentage = single * value *100 / total;
+    percentage = toFixedOrZero(percentage,1);
+    return percentage;
 }
 function ratiosData(totalProtein, totalFats, totalCarbs, totalEnergy) {
     // Prikaz makronutrijenata u pie chartu
@@ -512,13 +529,13 @@ function initializePage() {
             });
 
             var infoHtml = '<div class="row"><div class="col"><h4><b>Total</b></h4>';
-            infoHtml += '<p><span id="proteins">Proteins: ' + toFixedOrZero(data.proteins, 1) + '</span><br>';
-            infoHtml += '<span id="carbs">Carbs: ' + toFixedOrZero(data.carbs, 1) + '</span><br>';
-            infoHtml += '<span id="sugars">Sugars: ' + toFixedOrZero(data.sugars, 1) + '</span><br>';
-            infoHtml += '<span id="fibers">Fibers: ' + toFixedOrZero(data.fibers, 1) + '</span><br>';
-            infoHtml += '<span id="fats">Fats: ' + toFixedOrZero(data.fats, 1) + '</span><br>';
-            infoHtml += '<span id="saturated_fats">Saturated fats: ' + toFixedOrZero(data.saturated_fats, 1) + '</span><br>';
-            infoHtml += '<b><span id="calories">Calories: ' + toFixedOrZero(data.calories, 1) + '</span></b></p></div></div>';
+            infoHtml += '<p><span id="proteins">Proteins: ' + toFixedOrZero(data.proteins, 1) + 'g</span> ('+postotak(data.proteins,4,data.calories)+'%)<br>';
+            infoHtml += '<span id="carbs">Carbs: ' + toFixedOrZero(data.carbs, 1) + 'g</span> ('+postotak(data.carbs,4,data.calories)+'%)<br>';
+            infoHtml += '<span id="sugars">Sugars: ' + toFixedOrZero(data.sugars, 1) + 'g</span> ('+postotak(data.sugars,4,data.calories)+'%)<br>';
+            infoHtml += '<span id="fibers">Fibers: ' + toFixedOrZero(data.fibers, 1) + 'g</span><br>';
+            infoHtml += '<span id="fats">Fats: ' + toFixedOrZero(data.fats, 1) + 'g</span> ('+postotak(data.fats,9,data.calories)+'%)<br>';
+            infoHtml += '<span id="saturated_fats">Saturated fats: ' + toFixedOrZero(data.saturated_fats, 1) + 'g</span> ('+postotak(data.saturated_fats,9,data.calories)+'%)<br>';
+            infoHtml += '<b><span id="calories">Calories: ' + toFixedOrZero(data.calories, 1) + 'kcal</span></b></p></div></div>';
             totalInfoDiv.insertAdjacentHTML('beforeend', infoHtml);
             chartMacros(data.proteins, data.fats, data.carbs, data.calories);
           /*  energyData();
@@ -650,13 +667,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         
         var infoHtml = '<div class="row"><div class="col"><h4><b>Total:</b></h4>';
-        infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(1) + '</span><br>';
-        infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(1) + '</span><br>';
-        infoHtml += '<span id="sugars">Sugars: ' + sugars.toFixed(1) + '</span><br>';
-        infoHtml += '<span id="fibers">Fibers: ' + fibers.toFixed(1) + '</span><br>';
-        infoHtml += '<span id="fats">Fats: ' + fats.toFixed(1) + '</span><br>';
-        infoHtml += '<span id="saturated_fats">Saturated_fats: ' + saturated_fats.toFixed(1) + '</span><br>';
-        infoHtml += '<b><span id="calories">Calories: ' + calories.toFixed(1) + '</span></b></p></div></div>';
+        infoHtml += '<p><span id="proteins">Proteins: ' + proteins.toFixed(1) + 'g</span> ('+postotak(proteins,4,calories)+'%)<br>';
+        infoHtml += '<span id="carbs">Carbs: ' + carbs.toFixed(1) + 'g</span> ('+postotak(carbs,4,calories)+'%)<br>';
+        infoHtml += '<span id="sugars">Sugars: ' + sugars.toFixed(1) + 'g</span> ('+postotak(sugars,4,calories)+'%)<br>';
+        infoHtml += '<span id="fibers">Fibers: ' + fibers.toFixed(1) + 'g</span><br>';
+        infoHtml += '<span id="fats">Fats: ' + fats.toFixed(1) + 'g</span> ('+postotak(fats,9,calories)+'%)<br>';
+        infoHtml += '<span id="saturated_fats">Saturated_fats: ' + saturated_fats.toFixed(1) + 'g</span> ('+postotak(saturated_fats,9,calories)+'%)<br>';
+        infoHtml += '<b><span id="calories">Calories: ' + calories.toFixed(1) + 'kcal</span></b></p></div></div>';
         
         totalInfoDiv.innerHTML = infoHtml;
     }
