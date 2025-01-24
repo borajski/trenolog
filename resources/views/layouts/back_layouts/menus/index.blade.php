@@ -66,7 +66,7 @@
    <div class="row  mb-3 align-items-center"> 
    <div class="col-md-6">     
                     <label for="ingredients"><b>Single ingredients:</b></label>               
-                    <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]">
+                    <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]" autocomplete="off">
                     <div class="search-myresults"></div>
                 </div>
                 <div class="col-md-4 ">
@@ -85,7 +85,7 @@
 <div class="row  mb-3 align-items-center"> 
    <div class="col-md-6">     
                     <label for="ingredients"><b>Meals intake:</b></label>               
-                    <input type="text" class="form-control" placeholder="Meal" id="meal-search" name="obrok[]">
+                    <input type="text" class="form-control" placeholder="Meal" id="meal-search" name="obrok[]" autocomplete="off">
                     <div class="search-results-meals"></div>
                 </div>
                 <div class="col-md-4">

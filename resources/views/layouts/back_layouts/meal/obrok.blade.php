@@ -81,14 +81,14 @@
               <input type="file" class="form-control-file" name="photo" onchange="previewFile(this);">
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6">
                       <div class="form-group">
                             <label for="name"><b>Name:</b></label>
-                            <input type="text" class="form-control" name="name" value="{{$obrok->name}}">
+                            <input type="text" class="form-control" name="name" value="{{$obrok->name}}" autocomplete="off">
                         </div>
                            <div class="form-group">
                             <label for="sort"><b>Sort:</b></label>
-                            <input type="text" class="form-control" name="sort" value="{{$obrok->sort}}">
+                            <input type="text" class="form-control" name="sort" value="{{$obrok->sort}}" autocomplete="off">
                         </div>
                         <div class="form-group">
                         <label for="status"><b>Status:</b></label>
@@ -107,13 +107,13 @@
 </div>
 </div>
                 </div>               
-                    <div class="col-6"><!-- unos namirnica -->
+                    <div class="col-md-6"><!-- unos namirnica -->
                      
                     <label for="ingredients"><b>Ingredients:</b></label>
                    
             <div class="row mb-3 align-items-center">
                 <div class="col-md-6">
-                    <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]">
+                    <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]" autocomplete="off">
                     <div class="search-myresults"></div>
                     <input type="hidden" class="form-control " id="food-id" name="identifikacija[]"> 
                 </div>

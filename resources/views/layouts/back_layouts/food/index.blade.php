@@ -60,15 +60,15 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="name"><b>Name:</b></label>
-                                <input type="text" class="form-control" name="name">
+                                <input type="text" class="form-control" name="name" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="producer"><b>Producer:</b></label>
-                                <textarea class="form-control" rows="1" name="producer" style="width: 100%"></textarea>
+                                <input type="text" class="form-control" name="producer" autocomplete="off">                                
                             </div>
                             <div class="form-group">
                                 <label for="sort"><b>Sort:</b></label>
-                                <textarea class="form-control" rows="1" name="sort" style="width: 100%"></textarea>
+                                <input type="text" class="form-control" name="sort" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="status"><b>Status:</b></label>
@@ -83,26 +83,25 @@
 
                             <div class="form-group">
                                 <label for="proteins"><b>Proteins:</b></label>
-                                <textarea class="form-control" rows="1" name="proteins" style="width: 100%"></textarea>
-                            </div>
+                                <input type="text" class="form-control" name="proteins" autocomplete="off">
+                          </div>
                             <div class="form-group">
                                 <label for="carbs"><b>Carbohydrates:</b></label>
-                                <textarea class="form-control" rows="1" name="carbs" style="width: 100%"></textarea>
+                                <input type="text" class="form-control" name="carbs" autocomplete="off">
                                 <label for="sugars">Sugars:</label>
-                                <textarea class="form-control" rows="1" name="sugars" style="width: 60%"></textarea>
+                                <input type="text" class="form-control" name="sugars" autocomplete="off">
                                 <label for="fibers">Fibers:</label>
-                                <textarea class="form-control" rows="1" name="fibers" style="width: 60%"></textarea>
-                            </div>
+                                <input type="text" class="form-control" name="fibers" autocomplete="off">
+                           </div>
                             <div class="form-group">
                                 <label for="fats"><b>Fats:</b></label>
-                                <input type="text" class="form-control" name="fats">
+                                <input type="text" class="form-control" name="fats" autocomplete="off">
                                 <label for="saturated fats">Saturated fats:</label>
-                                <textarea class="form-control" rows="1" name="saturated_fats"
-                                    style="width: 60%"></textarea>
-                            </div>
+                                <input type="text" class="form-control" name="saturated_fats" autocomplete="off">
+                             </div>
                             <div class="form-group">
                                 <label for="calories"><b>Calories:</b></label>
-                                <input type="text" class="form-control" name="calories">
+                                <input type="text" class="form-control" name="calories" autocomplete="off">
                             </div>
 
                         </div>
@@ -121,17 +120,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"><b>Name:</b></label>
-                                <input type="text" class="form-control" name="name" id="name">
+                                <input type="text" class="form-control" name="name" id="name" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="producer"><b>Producer:</b></label>
-                                <textarea class="form-control" rows="2" name="producer" id="producer"
-                                    style="width: 100%"></textarea>
+                                <input type="text" class="form-control" name="producer" id="producer" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="sort"><b>Sort:</b></label>
-                                <textarea class="form-control" rows="2" name="sort" id="sort"
-                                    style="width: 100%"></textarea>
+                                <input type="text" class="form-control" name="sort" id="sort" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="status"><b>Status:</b></label>
@@ -142,27 +139,26 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="proteins"><b>Proteins:</b></label>
-                                <textarea class="form-control" rows="2" name="proteins" id="proteins"
-                                    style="width: 100%"></textarea>
+                                <input type="text" class="form-control" name="proteins" id="proteins" autocomplete="off">
                             </div>
 
                             <div class="form-group">
                                 <label for="carbs"><b>Carbohydrates:</b></label>
-                                <input type="text" class="form-control" name="carbs" id="carbs">
+                                <input type="text" class="form-control" name="carbs" id="carbs" autocomplete="off">
                                 <label for="fibers">Fibers:</label>
-                                <input type="text" class="form-control" name="fibers" id="fibers">
+                                <input type="text" class="form-control" name="fibers" id="fibers" autocomplete="off">
                                 <label for="sugars">Sugars:</label>
-                                <input type="text" class="form-control" name="sugars" id="sugars">
+                                <input type="text" class="form-control" name="sugars" id="sugars" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="fats"><b>Fats:</b></label>
-                                <input type="text" class="form-control" name="fats" id="fats">
+                                <input type="text" class="form-control" name="fats" id="fats" autocomplete="off">
                                 <label for="saturated_fats">Saturated fats:</label>
-                                <input type="text" class="form-control" name="saturated_fats" id="saturated-fats">
+                                <input type="text" class="form-control" name="saturated_fats" id="saturated-fats" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label for="calories"><b>Calories:</b></label>
-                                <input type="text" class="form-control" name="calories" id="calories">
+                                <input type="text" class="form-control" name="calories" id="calories" autocomplete="off">
                             </div>
                         </div>
                     </div>
