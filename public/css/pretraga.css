@@ -10,16 +10,78 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 /* za search */
-.search-results {
-            border: none;
-            max-height: 150px;
-            overflow-y: auto;
-      
+            .search-myresults {
+              position: absolute;
+              width: calc(100% - 20px); /* Smanjeno za 20px kako bi bilo prostora za marginu */
+              max-width: 400px; /* Maksimalna širina, prilagodljivo prema tvojoj potrebi */
+              max-height: 300px;
+              overflow-y: auto;
+              background-color: #fff;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              z-index: 1000;
+          }
+          @media (max-width: 768px) {
+            .search-myresults {
+                width: calc(100% - 10px); /* Još više smanji širinu za manje ekrane */
+                max-width: 300px; /* Postavi uži limit za mobilne uređaje */
+            }
         }
-        .search-results div {
-            
-            cursor: pointer;
-        }
-        .search-results div:hover {
-            background-color: #f0f0f0;
-        }
+        .search-results {
+          position: absolute;
+          width: calc(100% - 20px); /* Smanjeno za marginu s obje strane */
+          max-width: 400px; /* Maksimalna širina za bolje poravnanje na velikim ekranima */
+          max-height: 300px; /* Ograničenje visine uz mogućnost skrolanja */
+          overflow-y: auto;
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+      }
+
+@media (max-width: 768px) {
+    .search-results {
+        width: calc(100% - 10px);
+        max-width: 300px;
+    }
+}
+.search-results-meals {
+  position: absolute;
+  width: calc(100% - 20px); /* Smanjeno za marginu s obje strane */
+  max-width: 400px; /* Maksimalna širina za bolje poravnanje na velikim ekranima */
+  max-height: 300px; /* Ograničenje visine uz mogućnost skrolanja */
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+@media (max-width: 768px) {
+  .search-results-meals {
+      width: calc(100% - 10px);
+      max-width: 300px;
+  }
+}
+.search-result-item {
+              padding: 10px 15px;
+              cursor: pointer;
+             /* border-bottom: 1px solid #eee; */
+              transition: background-color 0.3s ease;
+          }
+          
+          .search-result-item:hover {
+              background-color: #f5f5f5;
+          }
+          
+          .search-result-name {
+              font-size: 16px;
+              color: #333;
+          }
+          
+          .search-no-results {
+              padding: 10px 15px;
+              text-align: center;
+              color: #888;
+              font-style: italic;
+          }
+          

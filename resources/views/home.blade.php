@@ -88,10 +88,9 @@ function postotak ($single,$value,$total)
                     </div>
                     <!-- unos namirnica -->
                     <div class="row mb-3 align-items-center">
-                        <div class="col-md-6">
-                            <label for="ingredients"><b>Single ingredients:</b></label>
+                        <label for="ingredients"><b>Single ingredients:</b></label>
+                        <div class="col-md-6">                            
                             <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]" autocomplete="off">
-                            <div class="search-myresults"></div>
                         </div>
                         <div class="col-md-4">
                             <input type="number" class="form-control" placeholder="Quantity (g)" name="kolicina[]">
@@ -106,13 +105,13 @@ function postotak ($single,$value,$total)
                             </a>
                         </div>
                     </div> <!-- kraj unosa namirnica -->
+                    <div class="search-myresults"></div> <!--ispis rezultata pretrage -->
                     <div id="new-rows"></div>
                     <!-- unos pojedinačnih obroka -->
                     <div class="row mb-3 align-items-center">
+                        <label for="ingredients"><b>Meals intake:</b></label>
                         <div class="col-md-6">
-                            <label for="ingredients"><b>Meals intake:</b></label>
                             <input type="text" class="form-control" placeholder="Meal" id="meal-search" name="obrok[]" autocomplete="off">
-                            <div class="search-results-meals"></div>
                         </div>
                         <div class="col-md-4">
                             <input type="number" class="form-control" placeholder="Servings (n)" name="porcija[]">
@@ -127,6 +126,7 @@ function postotak ($single,$value,$total)
                             </a>
                         </div>
                     </div> <!-- kraj unosa obroka -->
+                    <div class="search-results-meals"></div> <!--ispis rezultata pretrage -->
                     <div id="new-rows-meals"></div>
                     <div class="text-end pt-3 pb-2">
                         <button type="submit" class="btn btn-primary">Save</button>

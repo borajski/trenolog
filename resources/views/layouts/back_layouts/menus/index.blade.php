@@ -63,9 +63,9 @@
     </div>
   </div>
    <!-- unos namirnica -->
+   <label for="ingredients"><b>Single ingredients:</b></label> 
    <div class="row  mb-3 align-items-center"> 
-   <div class="col-md-6">     
-                    <label for="ingredients"><b>Single ingredients:</b></label>               
+   <div class="col-md-6">            
                     <input type="text" class="form-control" placeholder="Food" id="myfood-search" name="namirnica[]" autocomplete="off">
                     <div class="search-myresults"></div>
                 </div>
@@ -82,9 +82,9 @@
 </div> <!-- kraj unosa namirnica -->
 <div id="new-rows"></div>
 <!--unos pojedinačnih obroka -->
+<label for="ingredients"><b>Meals intake:</b></label> 
 <div class="row  mb-3 align-items-center"> 
-   <div class="col-md-6">     
-                    <label for="ingredients"><b>Meals intake:</b></label>               
+   <div class="col-md-6">                   
                     <input type="text" class="form-control" placeholder="Meal" id="meal-search" name="obrok[]" autocomplete="off">
                     <div class="search-results-meals"></div>
                 </div>
