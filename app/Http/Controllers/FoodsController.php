@@ -155,89 +155,80 @@ public function mysearch(Request $request)
         $endDate = $request->input('endDate');
     
         $user_id = auth()->user()->id;
-       
-        // Fetch menus for the user in the given period
+    
         $menus = Menu::where('user_id', $user_id)
-        ->whereDate('created_at', '>=', $startDate)
-        ->whereDate('created_at', '<=', $endDate)
-        ->get();
-
-        // Initialize an empty array to hold the food consumption data
+            ->whereDate('created_at', '>=', $startDate)
+            ->whereDate('created_at', '<=', $endDate)
+            ->get();
+    
         $foodConsumption = [];
-
-        // Loop through each menu entry
+    
         foreach ($menus as $menu) {
-            // Split the menu entry into individual items
             $ingredients = explode(',', $menu->ingredients);
             $meals = explode(',', $menu->meals);
+    
             foreach ($ingredients as $item) {
-                // Split each item into id and quantity
                 list($foodId, $quantity) = explode('-', $item);
-                $foodId = (int) $foodId;
-                $quantity = (float) $quantity;
-
-                // Accumulate the quantity for each food item
+                $foodId = (int)$foodId;
+                $quantity = (float)$quantity;
+    
                 if (isset($foodConsumption[$foodId])) {
                     $foodConsumption[$foodId] += $quantity;
                 } else {
                     $foodConsumption[$foodId] = $quantity;
                 }
             }
-           // Loop through each meal entry
+    
             foreach ($meals as $obrok) {
-                // Split each obrok into id and quantity
                 if ($obrok != '-') {
-                
                     list($mealId, $porcije) = explode('-', $obrok);
-                    $mealId = (int) $mealId;
-                    $porcije = (float) $porcije;
-               
-
-                $obrok_detalji = Meal::find($mealId);
-            
-                $ingredients = explode(',', $obrok_detalji->ingredients);
-                foreach ($ingredients as $item) {
-                    // Split each item into id and quantity
-                    list($foodId, $quantity) = explode('-', $item);
-                    $foodId = (int) $foodId;
-                    $quantity = (float) $quantity*$porcije;
-                    $quantity = number_format($quantity, 2, '.', '');
-
-                // Accumulate the quantity for each food item
-                if (isset($foodConsumption[$foodId])) {
-                    $foodConsumption[$foodId] += $quantity;
-                } else {
-                    $foodConsumption[$foodId] = $quantity;
+                    $mealId = (int)$mealId;
+                    $porcije = (float)$porcije;
+    
+                    $obrok_detalji = Meal::find($mealId);
+    
+                    $ingredients = explode(',', $obrok_detalji->ingredients);
+                    foreach ($ingredients as $item) {
+                        list($foodId, $quantity) = explode('-', $item);
+                        $foodId = (int)$foodId;
+                        $quantity = (float)$quantity * $porcije;
+                        $quantity = number_format($quantity, 2, '.', '');
+    
+                        if (isset($foodConsumption[$foodId])) {
+                            $foodConsumption[$foodId] += $quantity;
+                        } else {
+                            $foodConsumption[$foodId] = $quantity;
+                        }
+                    }
                 }
             }
         }
-    }
-        }
-        
-       
-
-
-        // Optionally, you can fetch the names of the food items
-        $foodDetails = Food::whereIn('id', array_keys($foodConsumption))->get();
-
-        $report = [];
-        foreach ($foodDetails as $food) {
-            $report[] = [
-                'food_id' => $food->id,
-                'food_name' => $food->name,
-                'food_sort' => $food->sort,
-                'quantity' => $foodConsumption[$food->id]
+    
+        $groupedReport = [];
+    
+        foreach ($foodConsumption as $foodId => $quantity) {
+            $foodItem = Food::find($foodId);
+    
+            if (!$foodItem) {
+                continue;
+            }
+    
+            $foodSort = $foodItem->sort;
+            $foodName = $foodItem->name;
+    
+            if (!isset($groupedReport[$foodSort])) {
+                $groupedReport[$foodSort] = [];
+            }
+    
+            $groupedReport[$foodSort][] = [
+                'food_name' => $foodName,
+                'quantity' => $quantity,
             ];
         }
-         // Sort the report by quantity in descending order
-         usort($report, function($a, $b) {
-            return $b['quantity'] <=> $a['quantity'];
-        });
-        $groupedReport = collect($report)->groupBy('food_sort');
-
-        //return view('layouts.back_layouts.food.consumption', compact('report'));
-        return view('layouts.back_layouts.food.consumption', compact('groupedReport'));
+    
+       return view('layouts.back_layouts.food.consumption', compact('groupedReport'));
     }
+    
     /**
      * Remove the specified resource from storage.
      *

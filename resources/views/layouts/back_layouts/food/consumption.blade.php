@@ -31,29 +31,46 @@
     @if(isset($groupedReport))
     <div class="row mt-4">
         <div class="col-md-12">
-            <h4>Report Results</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Food Name</th>
-                        <th>Sort</th>
-                        <th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($groupedReport as $foodSort => $items)
-                        @foreach($items as $item)
-                        <tr> 
-                            <td>{{ $item['food_name'] }}</td>
-                            <td>{{ $foodSort }}</td> <!-- Umesto $item['food_sort'] koristimo ključ grupe $foodSort -->
-                            <td>{{ $item['quantity'] }}</td>
-                        </tr>
-                        @endforeach
-                    @endforeach
-                </tbody>
-            </table>
-            
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Report Results</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Food Name</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($groupedReport as $foodSort => $items)
+                                <?php $totalQuantity = 0; ?>
+                                @foreach($items as $item)
+                                    <?php $totalQuantity += $item['quantity']; ?>
+                                @endforeach
+                            
+                                <!-- Prikaz naziva vrste i ukupne količine -->
+                                <tr class="table-info font-weight-bold">
+                                    <td colspan="2" class="text-center">
+                                        <strong>{{ $foodSort }}</strong> (Total: {{ $totalQuantity }})
+                                    </td>
+                                </tr>
+                            
+                                <!-- Prikaz pojedinačnih namirnica u grupi -->
+                                @foreach($items as $item)
+                                <tr>
+                                    <td>{{ $item['food_name'] }}</td>
+                                    <td>{{ $item['quantity'] }}</td>
+                                </tr>
+                                @endforeach
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+        
     </div>
     @endif
 </div>
