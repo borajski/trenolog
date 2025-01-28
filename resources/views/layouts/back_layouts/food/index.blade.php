@@ -22,7 +22,7 @@
             </h4>
             <div class="input-group mb-3" id="pretraga">
                 <input type="text" class="form-control me-2" placeholder="Search my food.." aria-label="pretraga"
-                    aria-describedby="pretraga" id="myfood-search" name="moja_pretraga">
+                    aria-describedby="pretraga" id="myfood-search" name="moja_pretraga" autocomplete="off">
                 <div class="input-group-append">
                     <button class="btn btn-secondary" type="button" id="mysearch-button">Search</button>
                 </div>
@@ -236,7 +236,7 @@
         <h4><span class="me-auto"><b>Public food database</b></span> </h4>
         <div class="input-group mb-3" id="pretraga">
             <input type="text" class="form-control me-2" placeholder="Search food.." aria-label="pretraga"
-                aria-describedby="pretraga" id="food-search" name="pretraga">
+                aria-describedby="pretraga" id="food-search" name="pretraga" autocomplete="off">
             <div class="input-group-append">
                 <button class="btn btn-secondary" type="button" id="search-button">Search</button>
             </div>
