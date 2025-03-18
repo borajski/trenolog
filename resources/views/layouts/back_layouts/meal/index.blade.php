@@ -115,6 +115,9 @@
              <h4>You have no meals yet</h4>
              @endif
         </div>
+        <div class="d-flex justify-content-center pagination pagination-sm">
+            {{$moji_obroci->links()}}
+        </div>
                     <!--ispis javnih obroka -->
                     <div class="row">
                     <h4>Public meals</h4>
