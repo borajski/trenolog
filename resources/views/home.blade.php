@@ -42,7 +42,7 @@ function postotak ($single,$value,$total)
 
         foreach ($menus as $menu) {
             $i++;
-            $dates[] = $menu->created_at->format('d-m-Y');
+            $dates[] = substr($menu->date, 0, 5);
             $calories[] = $menu->calories;
             $kalorije += $menu->calories;
             $proteins[] = $menu->proteins;
