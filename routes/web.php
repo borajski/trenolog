@@ -7,9 +7,6 @@ use App\Http\Controllers\MealsController;
 use App\Http\Controllers\MenusController;
 use App\Http\Controllers\HomeController;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Artisan;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,20 +17,6 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/_fix-storage', function () {
-    File::ensureDirectoryExists(storage_path('app/public/images/users'));
-    File::ensureDirectoryExists(storage_path('app/public/images/meals'));
-
-    Artisan::call('storage:link');
-
-    return response()->json([
-        'ok' => true,
-        'users' => storage_path('app/public/images/users'),
-        'meals' => storage_path('app/public/images/meals'),
-        'link' => public_path('storage'),
-    ]);
-});
 
 Route::get('/', function () {
     return view('welcome');
