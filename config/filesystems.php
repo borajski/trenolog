@@ -52,16 +52,20 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
         ],
-        'users' => [
-            'driver' => 'local',
-            'root' => public_path('images/users'),
-            'url' => 'images/users/'
-          ],
-        'meals' => [
-            'driver' => 'local',
-            'root' => public_path('images/meals'),
-            'url' => 'images/meals/'
-          ],
+    'users' => [
+    'driver' => 'local',
+    'root' => storage_path('app/public/images/users'),
+    'url'  => env('APP_URL') . '/storage/images/users',
+    'visibility' => 'public',
+],
+
+'meals' => [
+    'driver' => 'local',
+    'root' => storage_path('app/public/images/meals'),
+    'url'  => env('APP_URL') . '/storage/images/meals',
+    'visibility' => 'public',
+],
+
 
     ],
 

@@ -10,53 +10,83 @@ use Illuminate\Support\Facades\Auth;
 class Photo extends Model
 {
     public static function imageUpload($image, $resource, $type, $resource_tag)
-    {
-        // Set some base vars.
-        // Extract image path from resource.
-        // Leave resource ID and image name.
-        $base_path = config('filesystems.disks.' . $type . '.url');
+{
+    // URL diska (za spremanje u bazu)
+    $baseUrl = rtrim(config("filesystems.disks.$type.url"), '/').'/';
 
-        if ($resource->$resource_tag != NULL)
-        {
-            $old = str_replace($base_path, '', $resource->$resource_tag);
-         
-          if ($old != "default-avatar.png")
-            {
-            if (Storage::disk($type)->exists($old)) {
-                Storage::disk($type)->delete($old);
+    // Ako postoji stara slika, obriši ju (osim default avatara)
+    $stored = (string) ($resource->$resource_tag ?? '');
+
+    if ($stored !== '') {
+        // Ako je u bazi spremljen puni URL, pretvori u relativnu putanju unutar diska
+        $relativeOld = str_starts_with($stored, $baseUrl)
+            ? substr($stored, strlen($baseUrl))
+            : ltrim($stored, '/');
+
+        // Nemoj dirati default avatar
+        if ($relativeOld !== 'default-avatar.png') {
+            if (Storage::disk($type)->exists($relativeOld)) {
+                Storage::disk($type)->delete($relativeOld);
+
+                // Pokušaj obrisati ID folder ako je prazan (npr. "123")
+                $dir = dirname($relativeOld);
+                if ($dir !== '.' && $dir !== '') {
+                    $fullDirPath = Storage::disk($type)->path($dir);
+                    if (is_dir($fullDirPath)) {
+                        @rmdir($fullDirPath); // briše samo ako je folder prazan
+                    }
+                }
             }
-            } 
-        }
-
-
-        // Check if it's an update and
-        // resource has old image stored.
-        // If it does, first delete it.
-
-        // If the images folder requires Resource ID folder
-        if ($type == 'users' || $type == 'meals') {
-            Storage::disk($type)->putFileAs($resource->id, $image, $image->getClientOriginalName());
-            $path = $base_path . $resource->id . '/' . $image->getClientOriginalName();
-        }
-    
-   
-
-        return $path;
-    }
-    public static function imageDelete($resource, $type, $resource_tag)
-    {
-    $base_path = config('filesystems.disks.' . $type . '.url');
-    $old = str_replace($base_path, '', $resource->$resource_tag);
-
-   
-    if ($old != "default-avatar.png")
-          {
-          if (Storage::disk($type)->exists($old)) {
-              Storage::disk($type)->delete($old);
-              if (is_dir($base_path . $resource->id))
-                rmdir($base_path . $resource->id);
-              return true;
-          }
         }
     }
+
+    // Spremanje nove slike
+    // Za users/meals čuvaš slike u folderu po resource ID
+    if ($type === 'users' || $type === 'meals') {
+        // $filename = $image->getClientOriginalName(); // ako želiš sigurnije ime, vidi napomenu ispod
+       $ext = $image->getClientOriginalExtension();
+$filename = Str::uuid()->toString() . ($ext ? ".{$ext}" : '');
+
+        Storage::disk($type)->putFileAs((string) $resource->id, $image, $filename);
+
+        // Relativni path unutar diska
+        $relativeNew = $resource->id . '/' . $filename;
+
+        // Puni URL koji spremaš u bazu (kao i do sada)
+        return $baseUrl . $relativeNew;
+    }
+
+    // Ako u budućnosti dodaš druge tipove, ovdje ih obradi
+    // Za sada: vrati null ili baci exception da znaš da je type nepokriven
+    return null;
+}
+
+public static function imageDelete($resource, $type, $resource_tag)
+{
+    $baseUrl = rtrim(config('filesystems.disks.' . $type . '.url'), '/') . '/';
+    $stored  = (string) $resource->$resource_tag;
+
+    if ($stored === '' || $stored === null) return false;
+
+    $relative = str_starts_with($stored, $baseUrl) ? substr($stored, strlen($baseUrl)) : ltrim($stored, '/');
+
+    if ($relative === "default-avatar.png") return false;
+
+    if (Storage::disk($type)->exists($relative)) {
+        Storage::disk($type)->delete($relative);
+
+        $dir = dirname($relative); // npr. "123"
+        if ($dir !== '.' && $dir !== '') {
+            $fullDirPath = Storage::disk($type)->path($dir);
+            if (is_dir($fullDirPath)) {
+                @rmdir($fullDirPath); // briše samo ako je prazno
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 }
