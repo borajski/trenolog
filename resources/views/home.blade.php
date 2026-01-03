@@ -42,7 +42,7 @@ function postotak ($single,$value,$total)
 
         foreach ($menus as $menu) {
             $i++;
-            $dates[] = substr($menu->date, 0, 5);
+            $dates[] = implode('/', array_slice(explode('/', $menu->date), 0, 2));
             $calories[] = $menu->calories;
             $kalorije += $menu->calories;
             $proteins[] = $menu->proteins;
@@ -306,7 +306,7 @@ function chartMacros(totalProtein, totalFats, totalCarbs, totalEnergy) {
 function energyData() {
             var ctx = document.getElementById('energyData').getContext('2d');
             var energyChart = new Chart(ctx, {
-                type: 'line', // ili 'bar' za bar grafikon
+                type: 'bar', // ili 'bar' za bar grafikon
                 data: {
                     labels: @json($dates),
                     datasets: [{
